@@ -83,9 +83,6 @@ class _loginState extends State<login> {
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               counter: Offstage(),
-                              border: new OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.teal)),
                               hintText: 'Enter Mobile No.',
                               labelText: 'Enter Mobile No.',
                               prefixIcon: const Icon(
@@ -103,9 +100,6 @@ class _loginState extends State<login> {
                           TextField(
                             obscureText: _isHidden,
                             decoration: InputDecoration(
-                              border: new OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.teal)),
                               hintText: 'Enter Password',
                               labelText: 'Enter Password',
                               prefixIcon: const Icon(

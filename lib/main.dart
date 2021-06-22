@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'UCO Bank',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
+      theme: theme(),
+     /* theme: ThemeData(
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
-      ),
+      ),*/
        home: SplashView(),
       // routes: routes,
       // We use routeName so that we dont need to remember the name

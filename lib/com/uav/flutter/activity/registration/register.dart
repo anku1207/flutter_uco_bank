@@ -64,10 +64,7 @@ class _registerState extends State<register> {
                                 ],
                               )),
                           TextField(
-                            maxLength: 10,
-                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              counter: Offstage(),
                               border: new OutlineInputBorder(
                                   borderSide:
                                       new BorderSide(color: Colors.teal)),
@@ -86,7 +83,10 @@ class _registerState extends State<register> {
                             height: 20,
                           ),
                           TextField(
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
+                              counter: Offstage(),
                               border: new OutlineInputBorder(
                                   borderSide:
                                       new BorderSide(color: Colors.teal)),
