@@ -1,30 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_uco_bank/com/uav/flutter/activity/registration/register.dart';
-import 'package:flutter_uco_bank/com/uav/flutter/components/BouncyPage.dart';
-import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 
-class login extends StatefulWidget {
-  const login({Key? key}) : super(key: key);
+class register extends StatefulWidget {
+  const register({Key? key}) : super(key: key);
 
   @override
-  _loginState createState() => _loginState();
+  _registerState createState() => _registerState();
 }
 
-class _loginState extends State<login> {
-  bool _isHidden = true;
-  @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
-  }
-
-  void _togglePasswordView() {
-    setState(() {
-      _isHidden = !_isHidden;
-    });
-  }
-
+class _registerState extends State<register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,23 +45,24 @@ class _loginState extends State<login> {
                         children: <Widget>[
                           Center(
                               child: Column(
-                            children: <Widget>[
-                              Text(
-                                "Login",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Container(
-                                  height: 20,
-                                  width: 80,
-                                  alignment: Alignment.center,
-                                  child: Divider(
-                                      color: Color(0xff6200ee), thickness: 1)),
-                            ],
-                          )),
+                                children: <Widget>[
+                                  Text(
+                                    "Register",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Container(
+                                      height: 20,
+                                      width: 80,
+                                      alignment: Alignment.center,
+                                      child: Divider(
+                                          color: Color(0xff6200ee),
+                                          thickness: 1)),
+                                ],
+                              )),
                           TextField(
                             maxLength: 10,
                             keyboardType: TextInputType.number,
@@ -86,10 +71,10 @@ class _loginState extends State<login> {
                               border: new OutlineInputBorder(
                                   borderSide:
                                       new BorderSide(color: Colors.teal)),
-                              hintText: 'Enter Mobile No.',
-                              labelText: 'Enter Mobile No.',
+                              hintText: 'Enter Username',
+                              labelText: 'Enter Username',
                               prefixIcon: const Icon(
-                                Icons.phone,
+                                Icons.person,
                                 color: Colors.grey,
                               ),
                               prefixText: ' ',
@@ -101,27 +86,36 @@ class _loginState extends State<login> {
                             height: 20,
                           ),
                           TextField(
-                            obscureText: _isHidden,
                             decoration: InputDecoration(
                               border: new OutlineInputBorder(
                                   borderSide:
                                       new BorderSide(color: Colors.teal)),
-                              hintText: 'Enter Password',
-                              labelText: 'Enter Password',
+                              hintText: 'Enter Mobile Number',
+                              labelText: 'Enter Mobile Number',
                               prefixIcon: const Icon(
                                 Icons.lock,
                                 color: Colors.grey,
                               ),
                               prefixText: ' ',
-                              suffixIcon: InkWell(
-                                onTap: _togglePasswordView,
-                                child: Icon(
-                                  _isHidden
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.black,
-                                ),
+                              contentPadding: new EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 20.0),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextField(
+                            decoration: InputDecoration(
+                              border: new OutlineInputBorder(
+                                  borderSide:
+                                      new BorderSide(color: Colors.teal)),
+                              hintText: 'Enter Email',
+                              labelText: 'Enter Email',
+                              prefixIcon: const Icon(
+                                Icons.mail,
+                                color: Colors.grey,
                               ),
+                              prefixText: ' ',
                               contentPadding: new EdgeInsets.symmetric(
                                   vertical: 20.0, horizontal: 20.0),
                             ),
@@ -129,32 +123,12 @@ class _loginState extends State<login> {
                           SizedBox(
                             height: 10,
                           ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: InkWell(
-                                onTap: () {
-                                  // Navigator.push(context,BouncyPage(widget: register()));
-                                  Navigator.pushNamed(
-                                      context, UavRoutes.Forgot_Screen);
-                                },
-                                child: Text(
-                                  "Forgot Password ?",
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xff018ad0)),
-                                )),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
                           ConstrainedBox(
                               constraints: const BoxConstraints(
                                   minWidth: double.infinity),
                               child: ElevatedButton(
                                 onPressed: () {},
-                                child: Text("LOGIN",
+                                child: Text("Register".toUpperCase(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -172,17 +146,17 @@ class _loginState extends State<login> {
                           SizedBox(
                             height: 20,
                           ),
+
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: Center(
                               child: InkWell(
                                   onTap: () {
                                     // Navigator.push(context,BouncyPage(widget: register()));
-                                    Navigator.pushNamed(
-                                        context, UavRoutes.register_Screen);
+                                    Navigator.pop(context, true);
                                   },
                                   child: Text(
-                                    "Didn\'t have account ? Register Now",
+                                    "Already registered ? Sign In",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 13,
