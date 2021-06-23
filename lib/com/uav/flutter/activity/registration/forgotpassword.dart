@@ -70,9 +70,6 @@ class _forgotpasswordState extends State<forgotpassword> {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   counter: Offstage(),
-                                  border: new OutlineInputBorder(
-                                      borderSide:
-                                      new BorderSide(color: Colors.teal)),
                                   hintText: 'Enter Mobile Number.',
                                   labelText: 'Enter Mobile Number',
                                   prefixIcon: const Icon(

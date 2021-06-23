@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+
 
 class register extends StatefulWidget {
   const register({Key? key}) : super(key: key);
@@ -9,6 +11,32 @@ class register extends StatefulWidget {
 }
 
 class _registerState extends State<register> {
+
+  var _formKey = GlobalKey<FormState>();
+  AutovalidateMode _autoValidate = AutovalidateMode.disabled;
+
+
+  String validateMobileNumber(String value){
+    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(patttern);
+    if (value == "") {
+      return 'Please enter mobile number';
+    } else if (!regExp.hasMatch(value!)) {
+      return 'Mobile No. accepts only  numbers and length should be 10 (first number to start with [6-9]';
+    }
+    return "";
+  }
+
+  void _submit() {
+    var isValid = _formKey.currentState!.validate();
+    if (isValid) {
+
+    }else{
+      setState(() => _autoValidate = AutovalidateMode.always);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,108 +73,112 @@ class _registerState extends State<register> {
                         children: <Widget>[
                           Center(
                               child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "Register",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Container(
-                                      height: 20,
-                                      width: 80,
-                                      alignment: Alignment.center,
-                                      child: Divider(
-                                          color: Color(0xff6200ee),
-                                          thickness: 1)),
-                                ],
-                              )),
-                          TextField(
-                            decoration: InputDecoration(
-                              border: new OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.teal)),
-                              hintText: 'Enter Username',
-                              labelText: 'Enter Username',
-                              prefixIcon: const Icon(
-                                Icons.person,
-                                color: Colors.grey,
+                            children: <Widget>[
+                              Text(
+                                "Register",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              prefixText: ' ',
-                              contentPadding: new EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                            maxLength: 10,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counter: Offstage(),
-                              border: new OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.teal)),
-                              hintText: 'Enter Mobile Number',
-                              labelText: 'Enter Mobile Number',
-                              prefixIcon: const Icon(
-                                Icons.lock,
-                                color: Colors.grey,
-                              ),
-                              prefixText: ' ',
-                              contentPadding: new EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              border: new OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.teal)),
-                              hintText: 'Enter Email',
-                              labelText: 'Enter Email',
-                              prefixIcon: const Icon(
-                                Icons.mail,
-                                color: Colors.grey,
-                              ),
-                              prefixText: ' ',
-                              contentPadding: new EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                  minWidth: double.infinity),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Text("Register".toUpperCase(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    )),
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Color(0xff018ad0)),
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                    ))),
-                              )),
-                          SizedBox(
-                            height: 20,
-                          ),
+                              Container(
+                                  height: 20,
+                                  width: 80,
+                                  alignment: Alignment.center,
+                                  child: Divider(
+                                      color: Color(0xff6200ee), thickness: 1)),
+                            ],
+                          )),
 
+                          Form(
+                            key: _formKey,
+                            autovalidateMode: _autoValidate,
+                            child: Column(children: <Widget>[
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'Enter Username',
+                                  labelText: 'Enter Username',
+                                  prefixIcon: const Icon(
+                                    Icons.person,
+                                    color: Colors.grey,
+                                  ),
+                                  prefixText: ' ',
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 20.0, horizontal: 20.0),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                maxLength: 10,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  counter: Offstage(),
+                                  hintText: 'Enter Mobile Number',
+                                  labelText: 'Enter Mobile Number',
+                                  prefixIcon: const Icon(
+                                    Icons.lock,
+                                    color: Colors.grey,
+                                  ),
+                                  prefixText: ' ',
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 20.0, horizontal: 20.0),
+                                ),
+                                validator:(value){
+                                  validateMobileNumber(value!);
+                                },
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'Enter Email',
+                                  labelText: 'Enter Email',
+                                  prefixIcon: const Icon(
+                                    Icons.mail,
+                                    color: Colors.grey,
+                                  ),
+                                  prefixText: ' ',
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 20.0, horizontal: 20.0),
+                                ),
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: 'email is required'),
+                                  EmailValidator(errorText:'enter a valid email address')
+                                ]),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                      minWidth: double.infinity),
+                                  child: ElevatedButton(
+                                    onPressed: _submit,
+                                    child: Text("Register".toUpperCase(),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        )),
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Color(0xff018ad0)),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                        ))),
+                                  )),
+                            ]),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: Center(
