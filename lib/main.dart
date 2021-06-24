@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'com/uav/flutter/components/routes.dart';
 import 'com/uav/flutter/components/theme.dart';
 import "package:flutter_uco_bank/com/uav/flutter/activity/splash/splash_view.dart";
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 
 
 
@@ -34,6 +36,7 @@ class MyApp extends StatelessWidget {
       // We use routeName so that we dont need to remember the name
       // initialRoute: UavRoutes.Login,
       onGenerateRoute: RouteGenerator.generateRoute,
+      builder: EasyLoading.init(),
 
     );
   }

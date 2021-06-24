@@ -1,6 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/Validations.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_uco_bank/com/uav/flutter/vo/duplicate_vo.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
+
 
 
 class register extends StatefulWidget {
@@ -15,18 +24,6 @@ class _registerState extends State<register> {
   var _formKey = GlobalKey<FormState>();
   AutovalidateMode _autoValidate = AutovalidateMode.disabled;
 
-
-  String validateMobileNumber(String value){
-    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(patttern);
-    if (value == "") {
-      return 'Please enter mobile number';
-    } else if (!regExp.hasMatch(value!)) {
-      return 'Mobile No. accepts only  numbers and length should be 10 (first number to start with [6-9]';
-    }
-    return "";
-  }
-
   void _submit() {
     var isValid = _formKey.currentState!.validate();
     if (isValid) {
@@ -35,6 +32,34 @@ class _registerState extends State<register> {
       setState(() => _autoValidate = AutovalidateMode.always);
     }
   }
+
+  /*checkDuplicateNumber({required Function onTap,required String mobileNumber}){
+    onTap(mobileNumber);
+  }*/
+
+  Future<DuplicateVO?> checkDuplicateNumber(String mobileNumber) async {
+
+    try{
+      print("response");
+      final response =await http.get(Uri.parse('http://192.168.3.121:8986/api/Account/isDuplicateMobileNo/'+mobileNumber));
+      print(response.body);
+      EasyLoading.dismiss();
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        return DuplicateVO.fromJson(jsonDecode(response.body));
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Failed to load album');
+      }
+    }catch(error){
+      EasyLoading.dismiss();
+      return null;
+    }
+  }
+
+
 
 
   @override
@@ -107,6 +132,7 @@ class _registerState extends State<register> {
                                   contentPadding: new EdgeInsets.symmetric(
                                       vertical: 20.0, horizontal: 20.0),
                                 ),
+                                validator: (value)=>validateRequiredField(value),
                               ),
                               SizedBox(
                                 height: 20,
@@ -115,7 +141,7 @@ class _registerState extends State<register> {
                                 maxLength: 10,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  counter: Offstage(),
+                                  counterText: "",
                                   hintText: 'Enter Mobile Number',
                                   labelText: 'Enter Mobile Number',
                                   prefixIcon: const Icon(
@@ -125,9 +151,24 @@ class _registerState extends State<register> {
                                   prefixText: ' ',
                                   contentPadding: new EdgeInsets.symmetric(
                                       vertical: 20.0, horizontal: 20.0),
+                                  errorMaxLines: 2
                                 ),
-                                validator:(value){
-                                  validateMobileNumber(value!);
+                                validator:(value)=> validateMobileNumber(value!),
+                                onChanged: (value){
+                                  if(value.length==10){
+                                    if(validateMobileNumber(value)==null){
+                                     /* checkDuplicateNumber(onTap: (String text) {
+                                        showToastShortTime(context, text);
+                                      },mobileNumber:value);*/
+                                      EasyLoading.show(status: 'loading...');
+                                      Future<DuplicateVO?> dfd = checkDuplicateNumber(value);
+                                      dfd.then((value) =>"" );
+
+
+
+                                    }
+
+                                  }
                                 },
                               ),
                               SizedBox(
@@ -157,7 +198,7 @@ class _registerState extends State<register> {
                                   constraints: const BoxConstraints(
                                       minWidth: double.infinity),
                                   child: ElevatedButton(
-                                    onPressed: _submit,
+                                    onPressed:()=> _submit,
                                     child: Text("Register".toUpperCase(),
                                         style: TextStyle(
                                           color: Colors.white,

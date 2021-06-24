@@ -20,3 +20,7 @@ const kSecondaryColor = const Color(0xFF4dd0e1);
 const kSecondaryLight = const Color(0xFF88ffff);
 const kSecondaryDark = const Color(0xFF009faf);
 
+
+const String UavCreateBookingRequestAction =
+    "Account/isDuplicateMobileNo/{mobileno}";
+
