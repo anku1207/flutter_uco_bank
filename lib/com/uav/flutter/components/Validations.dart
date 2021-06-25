@@ -12,7 +12,7 @@ String? validateMobileNumber(String value){
 
 String? validateRequiredField(String? value){
   if (value == "") {
-    return 'mobile number is required';
+    return 'this field is required';
   }
   return null;
 }

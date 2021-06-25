@@ -4,6 +4,8 @@ import "package:flutter_uco_bank/com/uav/flutter/activity/splash/splash_view.dar
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/login.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/register.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/forgotpassword.dart";
+import "package:flutter_uco_bank/com/uav/flutter/activity/registration/otp.dart";
+
 
 import 'BouncyPage.dart';
 
@@ -13,6 +15,8 @@ class UavRoutes {
   static const Login_Screen = "/login";
   static const register_Screen = "/register";
   static const Forgot_Screen = "/forgot";
+  static const Otp_Screen = "/otp";
+
 }
 
 class RouteGenerator {
@@ -27,6 +31,8 @@ class RouteGenerator {
         return BouncyPage(widget: register()); //PageRouteBuilder(pageBuilder: (_, __, ___) =>register());
       case UavRoutes.Forgot_Screen:
         return BouncyPage(widget: forgotpassword());
+      case UavRoutes.Otp_Screen:
+        return BouncyPage(widget: otp());
      default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

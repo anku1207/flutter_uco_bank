@@ -9,7 +9,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() {
   runApp(MyApp());
+  EasyLoading.instance.maskType=EasyLoadingMaskType.black;
 }
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -39,5 +41,6 @@ class MyApp extends StatelessWidget {
       builder: EasyLoading.init(),
 
     );
+
   }
 }
