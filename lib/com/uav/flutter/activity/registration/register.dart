@@ -67,7 +67,12 @@ class _registerState extends State<register> {
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        if (EasyLoading.isShow)
+          return false;
+        else
+          return true;
+      },
       child: Scaffold(
         backgroundColor: Color(0xff018ad0),
         body: Column(
