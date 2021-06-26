@@ -46,7 +46,7 @@ class _registerState extends State<register> {
       ).then((value) {
         if (value != null) {
           if (value.isError == false) {
-            Navigator.pushNamed(context, UavRoutes.Otp_Screen);
+            Navigator.pushNamed(context, UavRoutes.Otp_Screen,arguments: {"mobileNumber":mobileNumber.text,"module":"register"});
           } else {
             showToastShortTime(context, value.message.toString());
           }

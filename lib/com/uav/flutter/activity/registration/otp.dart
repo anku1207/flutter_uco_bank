@@ -7,6 +7,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/Validations.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/vo/default_response_v_o.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterapi.dart'
+    as APICall;
 
 class otp extends StatefulWidget {
   final Object? argument;
@@ -17,8 +20,8 @@ class otp extends StatefulWidget {
 }
 
 class _otpState extends State<otp> {
-
   late Timer _timer;
+  var argumentsMap;
   var resendOTPTextView = "Click to resend OTP";
   var _formKey = GlobalKey<FormState>();
   final otpTextView = new TextEditingController();
@@ -28,11 +31,34 @@ class _otpState extends State<otp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (widget.argument != null) {
+      argumentsMap = widget.argument as Map;
+      print(argumentsMap);
+      resend_OTP(argumentsMap["mobileNumber"]);
+    }
+  }
 
-    final arguments =widget.argument as Map;
-    print(arguments["exampleArgument"]);
-
-    startTimer();
+  void resend_OTP(String mobileNumber) {
+    print("resend_OTP  function");
+    Future<DefaultResponseVO?> dfd = APICall.resendOTP(mobileNumber);
+    dfd.catchError(
+      (onError) {
+        print(onError.toString());
+        showToastShortTime(context, onError.toString());
+      },
+    ).then((value) {
+      if (value != null) {
+        if (value.isError == false) {
+          startTimer();
+          showToastShortTime(context, "send otp");
+        } else {
+          showToastShortTime(context, value.message.toString());
+        }
+      }
+    }).whenComplete(() {
+      print("called when future completes");
+      EasyLoading.dismiss();
+    });
   }
 
   void startTimer() {

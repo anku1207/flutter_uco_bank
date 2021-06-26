@@ -1,29 +1,29 @@
-/// error : "String"
-/// message : "String"
+/// Message : "String"
+/// isError : "bool"
 
 class DefaultResponseVO {
-  bool? _error;
   String? _message;
+  bool? _isError;
 
-  bool? get error => _error;
   String? get message => _message;
+  bool? get isError => _isError;
 
   DefaultResponseVO({
-    bool? error,
-      String? message}){
-    _error = error;
+      String? message,
+    bool? isError}){
     _message = message;
+    _isError = isError;
 }
 
   DefaultResponseVO.fromJson(dynamic json) {
-    _error = json["error"];
-    _message = json["message"];
+    _message = json["Message"];
+    _isError = json["isError"];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["error"] = _error;
-    map["message"] = _message;
+    map["Message"] = _message;
+    map["isError"] = _isError;
     return map;
   }
 
