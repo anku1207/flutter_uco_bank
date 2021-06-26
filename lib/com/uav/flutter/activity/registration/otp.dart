@@ -160,7 +160,7 @@ class _otpState extends State<otp> {
                                   if (resendOTPTextView ==
                                       "Click to resend OTP") {
                                     _timer.cancel();
-                                    startTimer();
+                                    resend_OTP(argumentsMap["mobileNumber"]);
                                   }
                                 },
                                 child: Text(resendOTPTextView,
