@@ -29,10 +29,7 @@ class _otpState extends State<otp> {
     // TODO: implement initState
     super.initState();
 
-
     final arguments =widget.argument as Map;
-
-
     print(arguments["exampleArgument"]);
 
     startTimer();
