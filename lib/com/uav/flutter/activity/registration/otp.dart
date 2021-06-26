@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,15 +9,16 @@ import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 
 class otp extends StatefulWidget {
-  const otp({Key? key}) : super(key: key);
+  final Object? argument;
+  const otp({Key? key, this.argument}) : super(key: key);
 
   @override
   _otpState createState() => _otpState();
 }
 
 class _otpState extends State<otp> {
-  late Timer _timer;
 
+  late Timer _timer;
   var resendOTPTextView = "Click to resend OTP";
   var _formKey = GlobalKey<FormState>();
   final otpTextView = new TextEditingController();
@@ -26,6 +28,13 @@ class _otpState extends State<otp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+
+    final arguments =widget.argument as Map;
+
+
+    print(arguments["exampleArgument"]);
+
     startTimer();
   }
 
@@ -42,8 +51,8 @@ class _otpState extends State<otp> {
           });
         } else {
           setState(() {
-            _start--;
             resendOTPTextView = "Seconds remaining: " + _start.toString();
+            _start--;
           });
         }
       },
@@ -123,8 +132,8 @@ class _otpState extends State<otp> {
                             margin: EdgeInsets.only(top: 20, bottom: 20),
                             child: Align(
                               alignment: Alignment.center,
-                              child: InkWell(
-                                onTap: () {
+                              child: TextButton(
+                                onPressed: () {
                                   if (resendOTPTextView ==
                                       "Click to resend OTP") {
                                     _timer.cancel();

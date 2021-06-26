@@ -9,10 +9,7 @@ import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/baseurl.da
 
 Future<DuplicateVO?> checkDuplicateNumber(String mobileNumber) async {
   EasyLoading.show(status: 'loading...');
-
-
-
-  print("response");
+  print("checkDuplicateNumber_Click");
   final response = await http.get(Uri.parse(
       ApiUrl.BASE_URL + 'Account/isDuplicateMobileNo/' + mobileNumber));
   print(response.body);
@@ -30,7 +27,7 @@ Future<DuplicateVO?> checkDuplicateNumber(String mobileNumber) async {
 Future<RegisterResponseVO> register(
     String userName,String mobileNumber, String emailId ) async {
   EasyLoading.show(status: 'loading...');
-  print("response");
+  print("register_click");
   final response = await http.post(
     Uri.parse(ApiUrl.BASE_URL + 'Account/Register'),
     headers: <String, String>{
@@ -42,7 +39,6 @@ Future<RegisterResponseVO> register(
       'Email': emailId
     }),
   );
-
   print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

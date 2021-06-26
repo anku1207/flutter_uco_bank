@@ -125,8 +125,8 @@ class _loginState extends State<login> {
                           ),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: InkWell(
-                                onTap: () {
+                            child: TextButton(
+                                onPressed: () {
                                   // Navigator.push(context,BouncyPage(widget: register()));
                                   Navigator.pushNamed(
                                       context, UavRoutes.Forgot_Screen);
@@ -169,8 +169,8 @@ class _loginState extends State<login> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: Center(
-                              child: InkWell(
-                                  onTap: () {
+                              child: TextButton(
+                                  onPressed: () {
                                     // Navigator.push(context,BouncyPage(widget: register()));
                                     Navigator.pushNamed(
                                         context, UavRoutes.register_Screen);

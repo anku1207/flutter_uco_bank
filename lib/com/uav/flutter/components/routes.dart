@@ -22,6 +22,7 @@ class UavRoutes {
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
+
     switch (settings.name) {
       case UavRoutes.Splash_Screen:
         return BouncyPage(widget: SplashView()); //PageRouteBuilder(pageBuilder: (_, __, ___) => SplashView());
@@ -32,7 +33,7 @@ class RouteGenerator {
       case UavRoutes.Forgot_Screen:
         return BouncyPage(widget: forgotpassword());
       case UavRoutes.Otp_Screen:
-        return BouncyPage(widget: otp());
+        return BouncyPage(widget: otp(argument:settings.arguments));
      default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

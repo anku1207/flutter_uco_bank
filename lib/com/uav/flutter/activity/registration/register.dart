@@ -275,8 +275,8 @@ class _registerState extends State<register> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 20.0),
                               child: Center(
-                                child: InkWell(
-                                    onTap: () {
+                                child: TextButton(
+                                    onPressed: () {
                                       // Navigator.push(context,BouncyPage(widget: register()));
                                       Navigator.pop(context, true);
                                     },

@@ -8,9 +8,12 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> with SingleTickerProviderStateMixin{
+  late Timer _timer;
+
   @override
   void initState() {
     super.initState();
+    startTimer();
    /* animationController = new AnimationController(
       vsync: this,
       duration: new Duration(seconds: 1),
@@ -19,18 +22,32 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
   }
   @override
   void dispose() {
+    _timer.cancel();
     super.dispose();
+  }
+
+  void startTimer() {
+    int _start = 3;
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+          (Timer timer) {
+        if (_start == 0) {
+          _timer.cancel();
+          Navigator.pushReplacementNamed(context,UavRoutes.Otp_Screen,arguments: {"exampleArgument": "exampleArgument"});
+          // Navigator.pushReplacementNamed(context,BouncyPage(widget: login()))
+        }else {
+            _start--;
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     // timer set two parameter first duration and second call back function
-    Timer(
-        Duration(
-            seconds: 3
-        ),() => Navigator.pushReplacementNamed(context,UavRoutes.Login_Screen)
-               // Navigator.pushReplacementNamed(context,BouncyPage(widget: login()))
-    );
+
+
     return new Container(
       alignment: Alignment.center,
       color: Colors.white,
