@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 
 
+ final String USER_REGISTER = "register";
+
 void showToastShortTime(BuildContext context , String message) {
   Fluttertoast.showToast(
       msg: message,

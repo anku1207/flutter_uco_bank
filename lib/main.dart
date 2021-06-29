@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'com/uav/flutter/components/routes.dart';
 import 'com/uav/flutter/components/theme.dart';
 import "package:flutter_uco_bank/com/uav/flutter/activity/splash/splash_view.dart";
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-
-
-
 void main() {
   runApp(MyApp());
-  EasyLoading.instance.maskType=EasyLoadingMaskType.black;
+  EasyLoading.instance.maskType = EasyLoadingMaskType.black;
 }
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -21,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'UCO Bank',
       debugShowCheckedModeBanner: false,
       theme: theme(),
-     /* theme: ThemeData(
+      /* theme: ThemeData(
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -33,14 +30,12 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),*/
-       home: SplashView(),
+      home: SplashView(),
       // routes: routes,
       // We use routeName so that we dont need to remember the name
       // initialRoute: UavRoutes.Login,
       onGenerateRoute: RouteGenerator.generateRoute,
       builder: EasyLoading.init(),
-
     );
-
   }
 }

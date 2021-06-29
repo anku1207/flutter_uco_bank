@@ -25,6 +25,8 @@ class _registerState extends State<register> {
   final username = new TextEditingController();
   final mobileNumber = new TextEditingController();
   final emailId = new TextEditingController();
+  FocusNode emailFocusNode = new FocusNode();
+
 
   var _formKey = GlobalKey<FormState>();
   AutovalidateMode _autoValidate = AutovalidateMode.disabled;
@@ -46,7 +48,7 @@ class _registerState extends State<register> {
       ).then((value) {
         if (value != null) {
           if (value.isError == false) {
-            Navigator.pushNamed(context, UavRoutes.Otp_Screen,arguments: {"mobileNumber":mobileNumber.text,"module":"register"});
+            Navigator.pushNamed(context, UavRoutes.Otp_Screen,arguments: {"mobileNumber":mobileNumber.text,"module":USER_REGISTER});
           } else {
             showToastShortTime(context, value.message.toString());
           }
@@ -168,16 +170,15 @@ class _registerState extends State<register> {
                                       validateMobileNumber(value!),
                                   onChanged: (valueTextInput) {
                                     if (valueTextInput.length == 10) {
-                                      if (validateMobileNumber(
-                                              valueTextInput) ==
-                                          null) {
+                                      if (validateMobileNumber(valueTextInput) ==null) {
                                         /* checkDuplicateNumber(onTap: (String text) {
                                         showToastShortTime(context, text);
                                       },mobileNumber:value);*/
-                                        Future<DuplicateVO?> dfd =
-                                            APICall.checkDuplicateNumber(
-                                                valueTextInput);
-                                        dfd.catchError(
+
+                                        // hide soft keyboard
+                                        FocusScope.of(context).requestFocus(new FocusNode());
+                                        Future<DuplicateVO?> response =APICall.checkDuplicateNumber(valueTextInput);
+                                        response.catchError(
                                           (onError) {
                                             print(onError.toString());
                                             showToastShortTime(
@@ -186,8 +187,7 @@ class _registerState extends State<register> {
                                         ).then((value) {
                                           if (value != null) {
                                             if (value.isError == false) {
-                                              FocusScope.of(context)
-                                                  .nextFocus();
+                                              FocusScope.of(context).requestFocus(emailFocusNode);
                                               setState(() {
                                                 mobileNumberValidate = true;
                                               });
@@ -220,6 +220,7 @@ class _registerState extends State<register> {
                                 ),
                                 TextFormField(
                                   controller: emailId,
+                                  focusNode: emailFocusNode,
                                   decoration: InputDecoration(
                                     hintText: 'Enter Email',
                                     labelText: 'Enter Email',

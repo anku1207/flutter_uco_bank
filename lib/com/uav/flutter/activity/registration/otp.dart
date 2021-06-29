@@ -6,14 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/Validations.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/default_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterapi.dart'
     as APICall;
 
 class otp extends StatefulWidget {
-  final Object? argument;
-  const otp({Key? key, this.argument}) : super(key: key);
+  final Object argument;
+  const otp({Key? key, required this.argument}) : super(key: key);
 
   @override
   _otpState createState() => _otpState();
@@ -23,18 +24,30 @@ class _otpState extends State<otp> {
   late Timer _timer;
   var argumentsMap;
   var resendOTPTextView = "Click to resend OTP";
-  var _formKey = GlobalKey<FormState>();
-  final otpTextView = new TextEditingController();
-  AutovalidateMode _autoValidate = AutovalidateMode.disabled;
+  var _formKey;
+  late TextEditingController otpTextView;
+  late AutovalidateMode _autoValidate;
+
+  late String mobileNumber,module;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    //initialized
+    _formKey = GlobalKey<FormState>();
+    otpTextView = new TextEditingController();
+    _autoValidate = AutovalidateMode.disabled;
+
     if (widget.argument != null) {
       argumentsMap = widget.argument as Map;
       print(argumentsMap);
+      mobileNumber=argumentsMap["mobileNumber"];
+      module=argumentsMap["module"];
       resend_OTP(argumentsMap["mobileNumber"]);
+    }else{
+      Navigator.pop(context, true);
     }
   }
 
@@ -93,6 +106,30 @@ class _otpState extends State<otp> {
     var isValid = _formKey.currentState!.validate();
     if (isValid) {
       showToastShortTime(context, "run next btn");
+      if(module==USER_REGISTER){
+        Future<DefaultResponseVO?> response =
+        APICall.verifyOtp(mobileNumber,otpTextView.text);
+        response.catchError(
+              (onError) {
+            print(onError.toString());
+            showToastShortTime(context, onError.toString());
+          },
+        ).then((value) {
+          if (value != null) {
+            if (value.isError == false) {
+              Navigator.pushReplacementNamed(context, UavRoutes.Password_Screen,arguments: {"mobileNumber":mobileNumber});
+            } else {
+              showToastShortTime(context, value.message.toString());
+            }
+          }
+        }).whenComplete(() {
+          print("called when future completes");
+          EasyLoading.dismiss();
+        });
+      }else{
+
+      }
+
     } else {
       setState(() => _autoValidate = AutovalidateMode.always);
     }
