@@ -25,7 +25,7 @@ class _DashBoardState extends State<DashBoard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future<DashboardResponseVO?> response = DashboardAPI.getDashboardData("75");
+    Future<DashboardResponseVO?> response = DashboardAPI.getDashboardData("58");
     response.catchError(
           (onError) {
         print(onError.toString());
@@ -62,6 +62,12 @@ class _DashBoardState extends State<DashBoard> {
         appBar: AppBar(
           title: Text("Dashboard"),
           iconTheme: IconThemeData(color: Colors.white),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Icon(Icons.search),
+            ),
+          ],
         ),
         body: Center(child: Text('My Page!')),
         drawer: DrawerWidget(userName: userName,email: userEmail),
