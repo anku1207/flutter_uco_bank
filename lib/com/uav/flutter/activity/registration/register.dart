@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart'
     as constants;
+import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/registerresponse_v_o.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_uco_bank/com/uav/flutter/components/Validations.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/duplicate_vo.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterapi.dart'
+import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterAPI.dart'
     as APICall;
 
 class register extends StatefulWidget {
@@ -38,9 +39,11 @@ class _registerState extends State<register> {
     if (isValid) {
       print(username.text + "==" + mobileNumber.text + "==" + emailId.text);
 
-      Future<RegisterResponseVO?> dfd =
-          APICall.register(username.text, mobileNumber.text, emailId.text);
-      dfd.catchError(
+
+
+      Future<RegisterResponseVO?> response =
+          APICall.register( RegisterResponseVO(mobileNo:mobileNumber.text,name:username.text ,email: emailId.text ));
+      response.catchError(
         (onError) {
           print(onError.toString());
           showToastShortTime(context, onError.toString());

@@ -31,7 +31,7 @@ class DuplicateVO {
     map["isError"] = _isError;
     map["Message"] = _message;
     map["mobileno"] = _mobileno;
-    return map;
+    return map..removeWhere((key, value) => value == null);
   }
 
 }

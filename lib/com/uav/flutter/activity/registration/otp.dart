@@ -9,7 +9,7 @@ import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/default_response_v_o.dart';
-import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterapi.dart'
+import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterAPI.dart'
     as APICall;
 
 class otp extends StatefulWidget {
@@ -63,7 +63,6 @@ class _otpState extends State<otp> {
       if (value != null) {
         if (value.isError == false) {
           startTimer();
-          showToastShortTime(context, "send otp");
         } else {
           showToastShortTime(context, value.message.toString());
         }
@@ -105,7 +104,6 @@ class _otpState extends State<otp> {
     print("button click function");
     var isValid = _formKey.currentState!.validate();
     if (isValid) {
-      showToastShortTime(context, "run next btn");
       if(module==USER_REGISTER){
         Future<DefaultResponseVO?> response =
         APICall.verifyOtp(mobileNumber,otpTextView.text);

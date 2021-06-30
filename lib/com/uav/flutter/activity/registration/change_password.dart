@@ -5,7 +5,7 @@ import 'package:flutter_uco_bank/com/uav/flutter/components/Validations.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/change_password_response_v_o.dart';
-import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterapi.dart'
+import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterAPI.dart'
 as APICall;
 
 class changepassword extends StatefulWidget {
@@ -94,7 +94,7 @@ class _forgotpasswordState extends State<changepassword> {
                               child: Column(
                             children: <Widget>[
                               Text(
-                                "Forgot Password",
+                                "Change Password",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 22,
@@ -221,7 +221,8 @@ class _forgotpasswordState extends State<changepassword> {
     print("button click function");
     var isValid = _formKey.currentState!.validate();
     if (isValid) {
-      Future<ChangePasswordResponseVO?> response = APICall.changePwd(mobileNumber,passwordId.text,confirmPasswordId.text);
+
+      Future<ChangePasswordResponseVO?> response = APICall.changePwd(ChangePasswordResponseVO(mobileNo:mobileNumber,password: passwordId.text,confirmPassword: confirmPasswordId.text));
       response.catchError(
             (onError) {
           print(onError.toString());
@@ -230,7 +231,7 @@ class _forgotpasswordState extends State<changepassword> {
       ).then((value) {
         if (value != null) {
           if (value.isError == false) {
-            Navigator.pushReplacementNamed(context, UavRoutes.DashBoard_Screen);
+            Navigator.pushNamedAndRemoveUntil(context, UavRoutes.DashBoard_Screen,ModalRoute.withName('/'));
           } else {
             showToastShortTime(context, value.message.toString());
           }

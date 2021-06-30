@@ -24,7 +24,7 @@ class DefaultResponseVO {
     var map = <String, dynamic>{};
     map["Message"] = _message;
     map["isError"] = _isError;
-    return map;
+    return map..removeWhere((key, value) => value == null);
   }
 
 }

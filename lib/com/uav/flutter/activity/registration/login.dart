@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/activity/registration/register.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/BouncyPage.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/Validations.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/vo/login_response_v_o.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterAPI.dart'
+as APICall;
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -13,10 +19,24 @@ class login extends StatefulWidget {
 
 class _loginState extends State<login> {
   bool _isHidden = true;
+
+  late GlobalKey<FormState> _formKey;
+  late AutovalidateMode _autoValidate;
+  bool mobileNumberValidate = false;
+
+  late TextEditingController userNameId;
+  late TextEditingController passwordId;
+
   @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _formKey = GlobalKey<FormState>();
+    _autoValidate = AutovalidateMode.disabled;
+    mobileNumberValidate = false;
+
+    userNameId = new TextEditingController();
+    passwordId = new TextEditingController();
   }
 
   void _togglePasswordView() {
@@ -78,48 +98,59 @@ class _loginState extends State<login> {
                                       color: Color(0xff6200ee), thickness: 1)),
                             ],
                           )),
-                          TextField(
-                            maxLength: 10,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counter: Offstage(),
-                              hintText: 'Enter Mobile No.',
-                              labelText: 'Enter Mobile No.',
-                              prefixIcon: const Icon(
-                                Icons.phone,
-                                color: Colors.grey,
-                              ),
-                              prefixText: ' ',
-                              contentPadding: new EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                            obscureText: _isHidden,
-                            decoration: InputDecoration(
-                              hintText: 'Enter Password',
-                              labelText: 'Enter Password',
-                              prefixIcon: const Icon(
-                                Icons.lock,
-                                color: Colors.grey,
-                              ),
-                              prefixText: ' ',
-                              suffixIcon: InkWell(
-                                onTap: _togglePasswordView,
-                                child: Icon(
-                                  _isHidden
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.black,
+                          Form(
+                              key: _formKey,
+                              autovalidateMode: _autoValidate,
+                              child: Column(children: <Widget>[
+                                TextFormField(
+                                  controller: userNameId,
+                                  maxLength: 10,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    counter: Offstage(),
+                                    hintText: 'Enter Mobile No.',
+                                    labelText: 'Enter Mobile No.',
+                                    prefixIcon: const Icon(
+                                      Icons.phone,
+                                      color: Colors.grey,
+                                    ),
+                                    prefixText: ' ',
+                                    contentPadding: new EdgeInsets.symmetric(
+                                        vertical: 20.0, horizontal: 20.0),
+                                  ),
+                                  validator: (value) =>
+                                      validateRequiredField(value),
                                 ),
-                              ),
-                              contentPadding: new EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                            ),
-                          ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: passwordId,
+                                  obscureText: _isHidden,
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter Password',
+                                    labelText: 'Enter Password',
+                                    prefixIcon: const Icon(
+                                      Icons.lock,
+                                      color: Colors.grey,
+                                    ),
+                                    prefixText: ' ',
+                                    suffixIcon: InkWell(
+                                      onTap: _togglePasswordView,
+                                      child: Icon(
+                                        _isHidden
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    contentPadding: new EdgeInsets.symmetric(
+                                        vertical: 20.0, horizontal: 20.0),
+                                  ),
+                                  validator: (value) =>
+                                      validateRequiredField(value),
+                                ),
+                              ])),
                           SizedBox(
                             height: 10,
                           ),
@@ -147,7 +178,7 @@ class _loginState extends State<login> {
                               constraints: const BoxConstraints(
                                   minWidth: double.infinity),
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: ()=>_submit(),
                                 child: Text("LOGIN",
                                     style: TextStyle(
                                       color: Colors.white,
@@ -194,5 +225,42 @@ class _loginState extends State<login> {
             ),
           ]),
     );
+  }
+  void _submit() {
+    print("_submit click function");
+    var isValid = _formKey.currentState!.validate();
+    if (isValid) {
+      print(userNameId.text + "==" + passwordId.text );
+      // hide soft keyboard
+      FocusScope.of(context).requestFocus(new FocusNode());
+
+      Future<LoginResponseVO?> response =
+      APICall.login(LoginResponseVO(mobileNo:userNameId.text,password:passwordId.text ));
+      response.catchError(
+            (onError) {
+          print(onError.toString());
+          showToastShortTime(context, onError.toString());
+        },
+      ).then((value) {
+        if (value != null) {
+          if (value.isError == false) {
+            if(value.isFirstLogin==false){
+              Navigator.pushReplacementNamed(context, UavRoutes.DashBoard_Screen);
+            }else{
+              //navigation to Change Password fragment
+              showToastShortTime(context,"isFirstLogin "  + value.isFirstLogin.toString());
+            }
+
+          } else {
+            showToastShortTime(context, value.message.toString());
+          }
+        }
+      }).whenComplete(() {
+        print("called when future completes");
+        EasyLoading.dismiss();
+      });
+    } else {
+      setState(() => _autoValidate = AutovalidateMode.always);
+    }
   }
 }

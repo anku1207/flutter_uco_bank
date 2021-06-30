@@ -12,18 +12,11 @@ const buttonColor =  Color(0xff018ad0);
 const md_red_A700 =  Color(0xffD50000);
 
 
-
-
-
-
-
 const UavDefaultDuration = Duration(milliseconds: 250);
 const UavAnimationDuration = Duration(milliseconds: 200);
 
 const UavMobileNumberMaxLength = 10;
 const UavAutoSuggestPatternLength = 3;
-
-
 
 
 const kPrimaryColor = const Color(0xFF81c784);
@@ -33,12 +26,16 @@ const kSecondaryColor = const Color(0xFF4dd0e1);
 const kSecondaryLight = const Color(0xFF88ffff);
 const kSecondaryDark = const Color(0xFF009faf);
 
+const String USER_REGISTER = "register";
+const String ADD_APPOINTMENT = "Add Appointment";
+const String LOGOUT = "Logout";
 
 
 
 
 
 
-const String UavCreateBookingRequestAction =
-    "Account/isDuplicateMobileNo/{mobileno}";
+
+
+
 

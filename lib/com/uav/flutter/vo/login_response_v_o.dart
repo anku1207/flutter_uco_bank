@@ -1,56 +1,56 @@
 /// MobileNo : "String"
-/// Message : "String"
+/// isFirstLogin : "String"
 /// customerId : "String"
 /// Password : "String"
-/// ConfirmPassword : "String"
+/// Message : "String"
 /// isError : "String"
 
-class ChangePasswordResponseVO {
+class LoginResponseVO {
   String? _mobileNo;
-  String? _message;
+  bool? _isFirstLogin;
   int? _customerId;
   String? _password;
-  String? _confirmPassword;
+  String? _message;
   bool? _isError;
 
   String? get mobileNo => _mobileNo;
-  String? get message => _message;
+  bool? get isFirstLogin => _isFirstLogin;
   int? get customerId => _customerId;
   String? get password => _password;
-  String? get confirmPassword => _confirmPassword;
+  String? get message => _message;
   bool? get isError => _isError;
 
-  ChangePasswordResponseVO({
+  LoginResponseVO({
       String? mobileNo, 
-      String? message, 
+      bool? isFirstLogin,
       int? customerId,
       String? password, 
-      String? confirmPassword, 
+      String? message, 
       bool? isError}){
     _mobileNo = mobileNo;
-    _message = message;
+    _isFirstLogin = isFirstLogin;
     _customerId = customerId;
     _password = password;
-    _confirmPassword = confirmPassword;
+    _message = message;
     _isError = isError;
 }
 
-  ChangePasswordResponseVO.fromJson(dynamic json) {
+  LoginResponseVO.fromJson(dynamic json) {
     _mobileNo = json["MobileNo"];
-    _message = json["Message"];
+    _isFirstLogin = json["isFirstLogin"];
     _customerId = json["customerId"];
     _password = json["Password"];
-    _confirmPassword = json["ConfirmPassword"];
+    _message = json["Message"];
     _isError = json["isError"];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["MobileNo"] = _mobileNo;
-    map["Message"] = _message;
+    map["isFirstLogin"] = _isFirstLogin;
     map["customerId"] = _customerId;
     map["Password"] = _password;
-    map["ConfirmPassword"] = _confirmPassword;
+    map["Message"] = _message;
     map["isError"] = _isError;
     return map..removeWhere((key, value) => value == null);
   }

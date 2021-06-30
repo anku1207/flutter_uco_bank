@@ -3,11 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/change_password_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/default_response_v_o.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/vo/login_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/registerresponse_v_o.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/duplicate_vo.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/baseurl.dart';
+
+
+Map<String,String> headers = {'Content-Type':'application/json'};
+
 
 Future<DuplicateVO?> checkDuplicateNumber(String mobileNumber) async {
   EasyLoading.show(status: 'loading...');
@@ -26,20 +31,12 @@ Future<DuplicateVO?> checkDuplicateNumber(String mobileNumber) async {
   }
 }
 
-Future<RegisterResponseVO> register(
-    String userName,String mobileNumber, String emailId ) async {
+Future<RegisterResponseVO> register(RegisterResponseVO registerResponseVO) async {
   EasyLoading.show(status: 'loading...');
-  print("register_click");
-  final response = await http.post(
+  print(json.encode(registerResponseVO.toJson()));  final response = await http.post(
     Uri.parse(ApiUrl.BASE_URL + 'Account/Register'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'MobileNo': mobileNumber,
-      'Name': userName,
-      'Email': emailId
-    }),
+    headers: headers,
+    body: json.encode(registerResponseVO.toJson()),
   );
   print(response.body);
   if (response.statusCode == 200) {
@@ -75,9 +72,7 @@ Future<DefaultResponseVO?> verifyOtp(String mobileNumber , String otp) async {
   print("VerifyOtp_Click");
   final response = await http.post(
     Uri.parse(ApiUrl.BASE_URL + 'Account/VerifyOTP'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
+    headers:headers,
     body: jsonEncode(<String, String>{
       'MobileNo': mobileNumber,
       'OTP': otp,
@@ -95,19 +90,13 @@ Future<DefaultResponseVO?> verifyOtp(String mobileNumber , String otp) async {
   }
 }
 
-Future<ChangePasswordResponseVO?> changePwd(String mobileNumber , String password , String confirmPassword) async {
+Future<ChangePasswordResponseVO?> changePwd(ChangePasswordResponseVO changePasswordResponseVO) async {
   EasyLoading.show(status: 'loading...');
-  print("changePwd_Click");
+  print(json.encode(changePasswordResponseVO.toJson()));
   final response = await http.post(
     Uri.parse(ApiUrl.BASE_URL + 'Account/ChangePassword'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'MobileNo': mobileNumber,
-      'Password': password,
-      'ConfirmPassword': confirmPassword
-    }),
+    headers:headers,
+    body: json.encode(changePasswordResponseVO.toJson()),
   );
   print(response.body);
   if (response.statusCode == 200) {
@@ -121,3 +110,23 @@ Future<ChangePasswordResponseVO?> changePwd(String mobileNumber , String passwor
   }
 }
 
+
+Future<LoginResponseVO?> login(LoginResponseVO loginResponseVO) async {
+  EasyLoading.show(status: 'loading...');
+  print(json.encode(loginResponseVO.toJson()));
+  final response = await http.post(
+    Uri.parse(ApiUrl.BASE_URL + 'Account/Login'),
+    headers:headers,
+    body: json.encode(loginResponseVO.toJson()),
+  );
+  print(response.body);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return LoginResponseVO.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}

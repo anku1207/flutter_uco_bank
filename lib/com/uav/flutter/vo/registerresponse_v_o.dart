@@ -66,7 +66,7 @@ class RegisterResponseVO {
     map["customerId"] = _customerId;
     map["name"] = _name;
     map["password"] = _password;
-    return map;
+    return map..removeWhere((key, value) => value == null);
   }
 
 }
