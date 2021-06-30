@@ -34,7 +34,7 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
           (Timer timer) {
         if (_start == 0) {
           _timer.cancel();
-          Navigator.pushReplacementNamed(context,UavRoutes.DashBoard_Screen);
+          Navigator.pushReplacementNamed(context,UavRoutes.Login_Screen);
           // Navigator.pushReplacementNamed(context,BouncyPage(widget: login()))
         }else {
             _start--;

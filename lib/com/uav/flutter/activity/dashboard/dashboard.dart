@@ -18,16 +18,13 @@ class DashBoard extends StatefulWidget {
 
 
 class _DashBoardState extends State<DashBoard> {
-  late String userName;
-  late String userEmail;
+  String userName ="" ;
+  String userEmail = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    userName="manoj shakya";
-    userEmail="manojshakya1207@gmail.com";
-
     Future<DashboardResponseVO?> response = DashboardAPI.getDashboardData("75");
     response.catchError(
           (onError) {
@@ -37,7 +34,11 @@ class _DashBoardState extends State<DashBoard> {
     ).then((value) {
       if (value != null) {
         if (value.isError == false) {
-          //Navigator.pushNamedAndRemoveUntil(context, UavRoutes.DashBoard_Screen,ModalRoute.withName('/'));
+          setState(() {
+            userName=value.name!;
+            userEmail=value.email!;
+          });
+
         } else {
           showToastShortTime(context, value.message.toString());
         }
@@ -46,13 +47,7 @@ class _DashBoardState extends State<DashBoard> {
       print("called when future completes");
       EasyLoading.dismiss();
     });
-
-
-
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
