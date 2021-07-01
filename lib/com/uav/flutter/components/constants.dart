@@ -4,6 +4,9 @@ const UavPrimaryColor =  Color(0xff018ad0); //Color(0xFFFF7643);
 const UavSecondaryColor = Color(0xFF979797);
 const UavTextColor = Color(0xFF757575);
 
+const IconColor = Color(0xFF016E9E);
+
+
 
 const disableColor=Color(0xFFE0E0E0);
 const buttonColor =  Color(0xff018ad0);
