@@ -35,6 +35,16 @@ const String LOGOUT = "Logout";
 
 
 
+const String KEY_CONSTOMER_ID = "customer_id";
+const String KEY_CONTACT = "user_contact";
+const String KEY_FIRST_LOGIN = "user_first_login";
+// Sharedpref file name
+const String PREF_NAME = "UserDetails";
+// All Shared Preferences Keys
+const String IS_LOGIN = "IsLoggedIn";
+
+
+
 
 
 

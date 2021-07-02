@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -34,13 +36,24 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
           (Timer timer) {
         if (_start == 0) {
           _timer.cancel();
-          Navigator.pushReplacementNamed(context,UavRoutes.Login_Screen);
+          checkCustomerSession().then((value){
+            print(value);
+            if(value==false){
+              Navigator.pushReplacementNamed(context,UavRoutes.DashBoard_Screen);
+            }else{
+              Navigator.pushReplacementNamed(context,UavRoutes.Login_Screen);
+            }
+          });
           // Navigator.pushReplacementNamed(context,BouncyPage(widget: login()))
         }else {
             _start--;
         }
       },
     );
+  }
+  Future<bool?> checkCustomerSession() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(KEY_FIRST_LOGIN);
   }
 
   @override

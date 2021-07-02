@@ -1,34 +1,53 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
 
 class DrawerWidget extends StatefulWidget {
-  DrawerWidget({Key? key ,required this.userName , required this.email}) : super(key: key);
+  DrawerWidget(
+      {Key? key,
+      required this.userName,
+      required this.email,
+      required this.previousContext})
+      : super(key: key);
   var userName;
   var email;
+  BuildContext previousContext;
 
   @override
   _DrawerWidgetState createState() => _DrawerWidgetState();
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            _buildDrawerHeader(context),
-            _buildPortfolioItem(context:context,leftIcon:Icon(Icons.add_circle, color: Colors.black,),rightIcon:Icon(Icons.arrow_right),btnName:ADD_APPOINTMENT),
-            _buildDivider(),
-            _buildPortfolioItem(context:context,leftIcon:Icon(Icons.power_settings_new, color: Colors.black,),rightIcon:Icon(Icons.arrow_right),btnName:LOGOUT)
-          ],
-        ),
-
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          _buildDrawerHeader(context),
+          _buildPortfolioItem(
+              context: context,
+              leftIcon: Icon(
+                Icons.add_circle,
+                color: Colors.black,
+              ),
+              rightIcon: Icon(Icons.arrow_right),
+              btnName: ADD_APPOINTMENT),
+          _buildDivider(),
+          _buildPortfolioItem(
+              context: context,
+              leftIcon: Icon(
+                Icons.power_settings_new,
+                color: Colors.black,
+              ),
+              rightIcon: Icon(Icons.arrow_right),
+              btnName: LOGOUT)
+        ],
+      ),
     );
   }
 
@@ -52,7 +71,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
-          ), context: context,
+          ),
+          context: context,
         ),
         child: CircleAvatar(
           backgroundColor: Colors.black,
@@ -60,14 +80,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               'https://himdeve.eu/wp-content/uploads/2019/04/logo_retina.png'),
         ),
       ),
-      decoration: BoxDecoration(
-          color: UavPrimaryColor
-
-      ),
+      decoration: BoxDecoration(color: UavPrimaryColor),
     );
   }
 
-  ListTile _buildPortfolioItem({required BuildContext context , required Icon leftIcon , required Icon rightIcon , required String btnName}) {
+  ListTile _buildPortfolioItem(
+      {required BuildContext context,
+      required Icon leftIcon,
+      required Icon rightIcon,
+      required String btnName}) {
     return ListTile(
       title: Text(
         '$btnName',
@@ -77,10 +98,92 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       trailing: rightIcon,
       onTap: () {
         Navigator.of(context).pop();
-        if(btnName==ADD_APPOINTMENT){
+        if (btnName == ADD_APPOINTMENT) {
           showToastShortTime(context, "Add Appointment");
-        }else if(btnName==LOGOUT){
-          showToastShortTime(context, "Logout");
+        } else if (btnName == LOGOUT) {
+          showModalBottomSheet(
+              context: context,
+              builder: (BuildContext bc) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(
+                        "Logout",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(35.0),
+                        child: Text(
+                          "Are you sure you want to logout ?",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(widget.previousContext);
+                              },
+                              child: Text("No".toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                  )),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.red),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ))),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                SharedPreferences prefrences = await SharedPreferences.getInstance();
+                                prefrences.remove(KEY_FIRST_LOGIN);
+                                Navigator.pop(widget.previousContext);
+                                Navigator.pushReplacementNamed(widget.previousContext,UavRoutes.Login_Screen);
+                              },
+                              child: Text("Yes".toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                  )),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          UavPrimaryColor),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ))),
+                            )
+                          ]),
+                    ),
+                  ],
+                );
+              });
         }
       },
     );

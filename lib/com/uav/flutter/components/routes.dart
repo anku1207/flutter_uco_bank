@@ -7,7 +7,7 @@ import "package:flutter_uco_bank/com/uav/flutter/activity/registration/forgotpas
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/otp.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/change_password.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/dashboard/dashboard.dart";
-
+import "package:flutter_uco_bank/com/uav/flutter/activity/dashboard/appointmentslistview.dart";
 
 
 
@@ -22,6 +22,8 @@ class UavRoutes {
   static const Otp_Screen = "/otp";
   static const Password_Screen = "/password";
   static const DashBoard_Screen = "/dashboard";
+  static const AppointmentListView_Screen = "/appointmentlistview";
+
 
 
 
@@ -46,6 +48,8 @@ class RouteGenerator {
         return BouncyPage(widget: changepassword(argument:settings.arguments!));
       case UavRoutes.DashBoard_Screen:
         return BouncyPage(widget: DashBoard());
+      case UavRoutes.AppointmentListView_Screen:
+        return BouncyPage(widget: AppointmentListView(argument:settings.arguments!));
      default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

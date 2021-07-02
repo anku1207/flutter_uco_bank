@@ -4,11 +4,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/activity/registration/register.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/BouncyPage.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/Validations.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/login_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterAPI.dart'
 as APICall;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -241,16 +243,22 @@ class _loginState extends State<login> {
           print(onError.toString());
           showToastShortTime(context, onError.toString());
         },
-      ).then((value) {
+      ).then((value)  async {
         if (value != null) {
           if (value.isError == false) {
+
+            //setting the details in session manager
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString(KEY_CONSTOMER_ID, value.customerId.toString());
+            prefs.setBool(KEY_FIRST_LOGIN, value.isFirstLogin!);
+            prefs.setString(KEY_CONTACT, value.mobileNo!);
+            // if isFirstLog==0 move to  Change_password_Fragment and if isFirstLog==1 move to MainActivity
             if(value.isFirstLogin==false){
               Navigator.pushReplacementNamed(context, UavRoutes.DashBoard_Screen);
             }else{
               //navigation to Change Password fragment
               showToastShortTime(context,"isFirstLogin "  + value.isFirstLogin.toString());
             }
-
           } else {
             showToastShortTime(context, value.message.toString());
           }

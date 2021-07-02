@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/activity/dashboard/searchbottomsheet.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/drawer_widget.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_response_v_o.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/dashboard_item_v_o.dart'
     as itemVO;
 import 'package:flutter_uco_bank/com/uav/flutter/vo/dashboard_item_v_o.dart';
@@ -24,7 +27,7 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   String userName = "";
   String userEmail = "";
-  late List<DashboardItemVO> itemlist;
+  late List<AppointmentListItemVO> itemlist = List.filled(0, AppointmentListItemVO(), growable: true);
   List<DashboardItemVO> myList =
       List.filled(0, DashboardItemVO(), growable: true);
 
@@ -45,6 +48,11 @@ class _DashBoardState extends State<DashBoard> {
           setState(() {
             userName = value.name!;
             userEmail = value.email!;
+
+            if(itemlist.length>0){
+              itemlist.cast();
+            }
+            itemlist.addAll(value.appointmentList!);
 
             myList.add(DashboardItemVO(
                 id: itemVO.ADD_APPOINTMENT,
@@ -76,6 +84,7 @@ class _DashBoardState extends State<DashBoard> {
                 name: "Completed Appointments",
                 image: Icons.check,
                 count: value.completedAppointment.toString()));
+
           });
         } else {
           showToastShortTime(context, value.message.toString());
@@ -115,28 +124,10 @@ class _DashBoardState extends State<DashBoard> {
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
+                      isDismissible: true,
                       backgroundColor: Colors.transparent,
-                      builder: (BuildContext context) {
-                        return DraggableScrollableSheet(
-                          initialChildSize: 0.5, // half screen on load
-                          maxChildSize: 1,       // full screen on scroll
-                          minChildSize: 0.25,
-                          builder: (BuildContext context, ScrollController scrollController) {
-                            return Container(
-                              color: Colors.white,
-                              child: ListView.builder(
-                                controller: scrollController,
-                                itemCount: 25,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ListTile(title: Text('Item $index'));
-                                },
-                              ),
-                            );
-                          },
-                        );
-                      },
+                      builder: (context) =>SearchbottomSheet()
                     );
-
                   },
                   icon: Icon(
                     Icons.search,
@@ -146,7 +137,7 @@ class _DashBoardState extends State<DashBoard> {
               ),
             ],
           ),
-          drawer: DrawerWidget(userName: userName, email: userEmail),
+          drawer: DrawerWidget(userName: userName, email: userEmail , previousContext: context,),
           body: Container(
             color: UavPrimaryColor,
             child: Column(
@@ -201,7 +192,7 @@ class _DashBoardState extends State<DashBoard> {
                                         child: Center(
                                           child: IconButton(
                                             iconSize: 25,
-                                            onPressed: () {},
+                                            onPressed:()=>clickGridIcon(myList[index].name! , myList[index].id!),
                                             icon: Icon(
                                               myList[index].image,
                                               color: IconColor,
@@ -272,7 +263,7 @@ class _DashBoardState extends State<DashBoard> {
                                 ),
                               ),
                               Expanded(
-                                child: getUpcomingAppintments(myList/*new List.filled(0, new itemVO.DashboardItemVO())*/),
+                                child: appointmentListCreate(itemlist),
                               )
                             ],
                           ) //
@@ -284,45 +275,7 @@ class _DashBoardState extends State<DashBoard> {
     );
   }
 
-  Widget getUpcomingAppintments(List<DashboardItemVO> list) {
-    return list.isNotEmpty
-        ? ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (BuildContext context, int position) {
-          return Card(
-            color: Colors.white,
-            elevation: 2.0,
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  title: Text(list[position].name.toString()),
-                  onLongPress: () =>
-                      showToastLongTime(context, "message")
-                )
-              ],
-            ),
-          );
-        })
-        : Center(
-        child :  Align(
-          alignment: Alignment.center,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  "No Appointment Found",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: UavPrimaryColor
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-    );
+  clickGridIcon(String title, int id) {
+    Navigator.pushNamed(context, UavRoutes.AppointmentListView_Screen,arguments: {"title":title,"id":id});
   }
 }
