@@ -4,7 +4,7 @@ import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'constants.dart';
+import '../../components/constants.dart';
 
 class DrawerWidget extends StatefulWidget {
   DrawerWidget(
@@ -99,7 +99,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       onTap: () {
         Navigator.of(context).pop();
         if (btnName == ADD_APPOINTMENT) {
-          showToastShortTime(context, "Add Appointment");
+          Navigator.pushNamed(widget.previousContext, UavRoutes.AddAppointment_Screen);
         } else if (btnName == LOGOUT) {
           showModalBottomSheet(
               context: context,

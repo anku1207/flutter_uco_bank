@@ -1,13 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/activity/dashboard/AddAppointment.dart';
 import "package:flutter_uco_bank/com/uav/flutter/activity/splash/splash_view.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/login.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/register.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/forgotpassword.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/otp.dart";
 import "package:flutter_uco_bank/com/uav/flutter/activity/registration/change_password.dart";
-import "package:flutter_uco_bank/com/uav/flutter/activity/dashboard/dashboard.dart";
-import "package:flutter_uco_bank/com/uav/flutter/activity/dashboard/appointmentslistview.dart";
+import "package:flutter_uco_bank/com/uav/flutter/activity/dashboard/Dashboard.dart";
+import "package:flutter_uco_bank/com/uav/flutter/activity/dashboard/AppointmentsListView.dart";
+import "package:flutter_uco_bank/com/uav/flutter/activity/dashboard/AddAppointment.dart";
+
 
 
 
@@ -23,6 +26,7 @@ class UavRoutes {
   static const Password_Screen = "/password";
   static const DashBoard_Screen = "/dashboard";
   static const AppointmentListView_Screen = "/appointmentlistview";
+  static const AddAppointment_Screen = "/addappointment";
 
 
 
@@ -50,6 +54,8 @@ class RouteGenerator {
         return BouncyPage(widget: DashBoard());
       case UavRoutes.AppointmentListView_Screen:
         return BouncyPage(widget: AppointmentListView(argument:settings.arguments!));
+      case UavRoutes.AddAppointment_Screen:
+        return BouncyPage(widget: AddAppointment(argument:settings.arguments));
      default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

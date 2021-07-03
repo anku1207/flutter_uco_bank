@@ -12,7 +12,7 @@ const disableColor=Color(0xFFE0E0E0);
 const buttonColor =  Color(0xff018ad0);
 
 
-const md_red_A700 =  Color(0xffD50000);
+const redColor =  Color(0xffD50000);
 
 
 const UavDefaultDuration = Duration(milliseconds: 250);

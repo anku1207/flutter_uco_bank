@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_uco_bank/com/uav/flutter/activity/dashboard/searchbottomsheet.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/activity/dashboard/SearchBottomSheet.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
-import 'package:flutter_uco_bank/com/uav/flutter/components/drawer_widget.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/activity/dashboard/Drawer_Widget.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_response_v_o.dart';
@@ -192,7 +192,13 @@ class _DashBoardState extends State<DashBoard> {
                                         child: Center(
                                           child: IconButton(
                                             iconSize: 25,
-                                            onPressed:()=>clickGridIcon(myList[index].name! , myList[index].id!),
+                                            onPressed:(){
+                                              if(myList[index].id == itemVO.ADD_APPOINTMENT){
+                                                Navigator.pushNamed(context, UavRoutes.AddAppointment_Screen);
+                                              }else{
+                                                clickGridIcon(myList[index].name! , myList[index].id!);
+                                              }
+                                            },
                                             icon: Icon(
                                               myList[index].image,
                                               color: IconColor,

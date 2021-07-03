@@ -203,7 +203,7 @@ class _otpState extends State<otp> {
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
-                                        color: md_red_A700)),
+                                        color: redColor)),
                               ),
                             ),
                           ),
