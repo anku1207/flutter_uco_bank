@@ -25,15 +25,21 @@ class AppointmentListItemResponseVO {
   AppointmentListItemResponseVO.fromJson(dynamic json) {
     _isError = json["isError"];
     _message = json["Message"];
-    _appointmentList = json["appointmentList"] != null ? List<AppointmentListItemVO>.from(json['appointmentList']) : null;
+     if (json["appointmentList"] != null) {
+        _appointmentList = [];
+        json["branchList"].forEach((v) {
+          _appointmentList?.add(AppointmentListItemVO.fromJson(v));
+        });
+      }
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["isError"] = _isError;
     map["Message"] = _message;
-    map["appointmentList"] = _appointmentList;
+    if (_appointmentList != null) {
+      map["appointmentList"] = _appointmentList?.map((v) => v.toJson()).toList();
+    }
     return map;
   }
-
 }
