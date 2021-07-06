@@ -71,25 +71,32 @@ class _CustomerTypeDialogState extends State<CustomerTypeDialog> {
                               itemCount: widget.itemlist.length,
                               itemBuilder: (context, index) {
                                 String customerType = widget.itemlist[index];
-                                return InkWell(
-                                    onTap: () {
-                                      widget.customCallFunction(customerType:customerType );
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(16.0),
-                                      //80% of screen width
-                                      width: MediaQuery.of(context).size.width - 50,
+                                return  Material(
+                                  color: Color(0x00000000),
+                                    child: InkWell(
+                                        onTap: () {
+                                          widget.customCallFunction(customerType:customerType );
+                                          Navigator.pop(context);
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(16.0),
+                                          //80% of screen width
+                                          width: MediaQuery.of(context).size.width - 50,
 
-                                      child: Text(
-                                        customerType,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              customerType,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        )
                                     )
                                 );
+
                               },
                             )),
                       ],

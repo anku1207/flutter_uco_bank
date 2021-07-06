@@ -4,11 +4,22 @@ import 'com/uav/flutter/components/routes.dart';
 import 'com/uav/flutter/components/theme.dart';
 import "package:flutter_uco_bank/com/uav/flutter/activity/splash/splash_view.dart";
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter/services.dart';
+
 
 void main() {
-  runApp(MyApp());
-  EasyLoading.instance.maskType = EasyLoadingMaskType.black;
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  ).then((val) {
+    runApp(MyApp());
+    EasyLoading.instance.maskType = EasyLoadingMaskType.black;
+  });
 }
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

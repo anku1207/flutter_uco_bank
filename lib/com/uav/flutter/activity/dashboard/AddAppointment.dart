@@ -312,6 +312,10 @@ class _AddAppointmentState extends State<AddAppointment> {
       IconData icon, Function tabFunction, TextEditingController? controller) {
     return TextFormField(
       onTap: () => tabFunction(),
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 17,
+      ),
       showCursor: false, //add this line
       readOnly: true,
       controller: controller,
