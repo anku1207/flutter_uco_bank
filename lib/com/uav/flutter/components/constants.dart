@@ -43,7 +43,7 @@ const String PREF_NAME = "UserDetails";
 // All Shared Preferences Keys
 const String IS_LOGIN = "IsLoggedIn";
 
-
+const String ErrorMessage = "something want wrong";
 
 
 

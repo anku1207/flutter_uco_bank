@@ -7,14 +7,15 @@ import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/branch_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/dashboardAPI.dart'
-as DashboardAPI;
+    as DashboardAPI;
 import 'package:flutter_uco_bank/com/uav/flutter/vo/services_response_v_o.dart';
 
-
 class CustomerTypeDialog extends StatefulWidget {
-  List<String> itemlist ;
+  List<String> itemlist;
   Function customCallFunction;
-  CustomerTypeDialog(this.customCallFunction({String? customerType}), {Key? key, required this.itemlist}) : super(key: key);
+  CustomerTypeDialog(this.customCallFunction({String? customerType}),
+      {Key? key, required this.itemlist})
+      : super(key: key);
 
   @override
   _CustomerTypeDialogState createState() => _CustomerTypeDialogState();
@@ -35,8 +36,7 @@ class _CustomerTypeDialogState extends State<CustomerTypeDialog> {
           child: Container(
             color: Color.fromRGBO(0, 0, 0, 0.001),
             child: GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: DraggableScrollableSheet(
                 initialChildSize: 1,
                 minChildSize: 0.9,
@@ -67,38 +67,34 @@ class _CustomerTypeDialogState extends State<CustomerTypeDialog> {
                         ),
                         Expanded(
                             child: ListView.builder(
-                              controller: controller,
-                              itemCount: widget.itemlist.length,
-                              itemBuilder: (context, index) {
-                                String customerType = widget.itemlist[index];
-                                return  Material(
-                                  color: Color(0x00000000),
-                                    child: InkWell(
-                                        onTap: () {
-                                          widget.customCallFunction(customerType:customerType );
-                                          Navigator.pop(context);
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.all(16.0),
-                                          //80% of screen width
-                                          width: MediaQuery.of(context).size.width - 50,
+                          controller: controller,
+                          itemCount: widget.itemlist.length,
+                          itemBuilder: (context, index) {
+                            String customerType = widget.itemlist[index];
+                            return Material(
+                                color: Color(0x00000000),
+                                child: InkWell(
+                                    onTap: () {
+                                      widget.customCallFunction(
+                                          customerType: customerType);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16.0),
+                                      //80% of screen width
+                                      width: MediaQuery.of(context).size.width -
+                                          50,
 
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              customerType,
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                    )
-                                );
-
-                              },
-                            )),
+                                      child: Text(
+                                        customerType,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    )));
+                          },
+                        )),
                       ],
                     ),
                   );

@@ -27,7 +27,7 @@ class AppointmentListItemResponseVO {
     _message = json["Message"];
      if (json["appointmentList"] != null) {
         _appointmentList = [];
-        json["branchList"].forEach((v) {
+        json["appointmentList"].forEach((v) {
           _appointmentList?.add(AppointmentListItemVO.fromJson(v));
         });
       }

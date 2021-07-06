@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/userregisterAPI.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/branch_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/dashboard_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/services_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/time_slot_v_o.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_v_o.dart';
+
 
 import 'package:http/http.dart' as http;
 
@@ -124,6 +127,28 @@ Future<TimeSlotVO?> getSlotByBranchWise(
     // If the server did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Failed to load album');
+  }
+}
+
+
+
+Future<AppointmentVO?> saveAppointment(Map<String, dynamic> requestData ) async {
+
+  EasyLoading.show(status: 'loading...');
+  final response = await http.post(
+    Uri.parse(ApiUrl.BASE_URL + 'Appointment/NewAppointment'),
+    headers: headers,
+    body: json.encode(requestData),
+  );
+  print(response.body);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return AppointmentVO.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to Save Appointment');
   }
 }
 

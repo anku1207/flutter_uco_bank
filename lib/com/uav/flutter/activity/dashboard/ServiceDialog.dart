@@ -44,8 +44,7 @@ class _ServiceDialogState extends State<ServiceDialog> {
           child: Container(
             color: Color.fromRGBO(0, 0, 0, 0.001),
             child: GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: DraggableScrollableSheet(
                 initialChildSize: 1,
                 minChildSize: 0.9,
@@ -80,27 +79,32 @@ class _ServiceDialogState extends State<ServiceDialog> {
                           itemCount: widget.itemlist.length,
                           itemBuilder: (context, index) {
                             ServiceList serviceList = widget.itemlist[index];
-                            return InkWell(
-                                onTap: () {
-                                  widget.customCallFunction(
-                                      serviceName: serviceList.serviceName,
-                                      serviceId:
-                                          serviceList.serviceId.toString());
-                                    Navigator.pop(context);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(16.0),
-                                  //80% of screen width
-                                  width: MediaQuery.of(context).size.width - 50,
+                            return Material(
+                                color: Color(0x00000000),
+                                child: InkWell(
+                                    onTap: () {
+                                      widget.customCallFunction(
+                                          serviceName: serviceList.serviceName,
+                                          serviceId:
+                                              serviceList.serviceId.toString());
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16.0),
+                                      //80% of screen width
+                                      width: MediaQuery.of(context).size.width -
+                                          50,
 
-                                  child: Text(
-                                    serviceList.serviceName!,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ));
+                                      child: Text(
+                                        serviceList.serviceName!,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    )
+                                )
+                            );
                           },
                         )),
                       ],

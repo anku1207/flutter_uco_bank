@@ -13,123 +13,133 @@ import 'package:flutter_uco_bank/com/uav/flutter/vo/branch_list_v_o.dart';
 class BranchDialog extends StatefulWidget {
   Function customCallFunchtion;
   List<BranchListVO> itemlist = List.filled(0, BranchListVO(), growable: true);
-  BranchDialog(this.customCallFunchtion({String? bankId, String? bankName}), {Key? key ,required this.itemlist}) : super(key: key);
+  BranchDialog(this.customCallFunchtion({String? bankId, String? bankName}),
+      {Key? key, required this.itemlist})
+      : super(key: key);
 
   @override
   _BranchDialogState createState() => _BranchDialogState();
 }
 
 class _BranchDialogState extends State<BranchDialog> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-      onWillPop: () async {
-        if (EasyLoading.isShow)
-          return false;
-        else
-          return true;
-      },
-      child:GestureDetector(
-        onTap: () => Navigator.of(context).pop(),
-        child: Container(
-          color: Color.fromRGBO(0, 0, 0, 0.001),
-          child: GestureDetector(
-            onTap: () {
-            },
-            child: DraggableScrollableSheet(
-              initialChildSize: 0.5,
-              minChildSize: 0.5,
-              maxChildSize: 0.9,
-              builder: (_, controller) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(25.0),
-                      topRight: const Radius.circular(25.0),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.remove,
-                        color: Colors.grey[600],
+        onWillPop: () async {
+          if (EasyLoading.isShow)
+            return false;
+          else
+            return true;
+        },
+        child: GestureDetector(
+          onTap: () => Navigator.of(context).pop(),
+          child: Container(
+            color: Color.fromRGBO(0, 0, 0, 0.001),
+            child: GestureDetector(
+                onTap: () {},
+                child: DraggableScrollableSheet(
+                  initialChildSize: 0.5,
+                  minChildSize: 0.5,
+                  maxChildSize: 0.9,
+                  builder: (_, controller) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(25.0),
+                          topRight: const Radius.circular(25.0),
+                        ),
                       ),
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      Expanded(
-                          child: ListView.builder(
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.remove,
+                            color: Colors.grey[600],
+                          ),
+                          Divider(
+                            color: Colors.black,
+                          ),
+                          Expanded(
+                              child: ListView.builder(
                             controller: controller,
                             itemCount: widget.itemlist.length,
                             itemBuilder: (context, index) {
-                              BranchListVO branchListVO = widget.itemlist[index];
-                              return InkWell(
-                                onTap: () {
-                                  widget.customCallFunchtion(bankName:branchListVO.branchName! , bankId:branchListVO.branchId.toString());
-                                  Navigator.pop(context);
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Container(
-                                        height: 50,
-                                        width: 50,
-                                        child: Icon(
-                                          Icons.location_on_rounded,
-                                          color: Colors.grey[600],
-                                        )),
-                                   Container (
-                                        padding: const EdgeInsets.all(16.0),
-                                        //80% of screen width
-                                        width: MediaQuery.of(context).size.width-50,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                branchListVO.branchName!,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
+                              BranchListVO branchListVO =
+                                  widget.itemlist[index];
+                              return Material(
+                                  color: Color(0x00000000),
+                                  child: InkWell(
+                                    onTap: () {
+                                      widget.customCallFunchtion(
+                                          bankName: branchListVO.branchName!,
+                                          bankId:
+                                              branchListVO.branchId.toString());
+                                      Navigator.pop(context);
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Container(
+                                            height: 50,
+                                            width: 50,
+                                            child: Icon(
+                                              Icons.location_on_rounded,
+                                              color: Colors.grey[600],
+                                            )),
+                                        Container(
+                                          padding: const EdgeInsets.all(16.0),
+                                          //80% of screen width
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              50,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text(
+                                                  branchListVO.branchName!,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 8.0),
-                                              child: Text("Peeragarhi\nDistance 3.2"),
-                                            )
-                                          ],
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text(
+                                                    "Peeragarhi\nDistance 3.2"),
+                                              )
+                                            ],
+                                          ),
                                         ),
-
-                                      ),
-                                  ],
-                                ),
-                              );
+                                      ],
+                                    ),
+                                  ));
                             },
                           )),
-                      buildExpandedButton("Close", () {
-                        Navigator.pop(context);
-                      }, redColor),
-                    ],
-                  ),
-                );
-              },
-            )
+                          buildExpandedButton("Close", () {
+                            Navigator.pop(context);
+                          }, redColor),
+                        ],
+                      ),
+                    );
+                  },
+                )),
           ),
-        ),
-      )
-    );
+        ));
   }
 
   SizedBox buildExpandedButton(

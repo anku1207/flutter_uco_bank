@@ -4,8 +4,8 @@ import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_respon
 import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/dashboard_item_v_o.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'constants.dart';
+import 'package:intl/intl.dart';
 
 void showToastShortTime(BuildContext context, String message) {
   Fluttertoast.showToast(
@@ -23,6 +23,17 @@ void showToastLongTime(BuildContext context, String message) {
       gravity: ToastGravity.BOTTOM, // also possible "TOP" and "CENTER"
       backgroundColor: Colors.black,
       textColor: Colors.white);
+}
+
+
+void showSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar( SnackBar( content: Text(message), duration: Duration(milliseconds: 1000), ), );
+}
+
+
+
+DateTime StringToDate(String format , String StringDate){
+  return new DateFormat(format).parse(StringDate);
 }
 
 Widget appointmentListCreate(List<AppointmentListItemVO> list) {
