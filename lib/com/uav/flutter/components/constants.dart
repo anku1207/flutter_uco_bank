@@ -29,6 +29,13 @@ const kSecondaryColor = const Color(0xFF4dd0e1);
 const kSecondaryLight = const Color(0xFF88ffff);
 const kSecondaryDark = const Color(0xFF009faf);
 
+
+
+const actions_bg_orange =Color(0xFFED5733);
+
+
+
+
 const String USER_REGISTER = "register";
 const String ADD_APPOINTMENT = "Add Appointment";
 const String LOGOUT = "Logout";
@@ -42,7 +49,6 @@ const String KEY_FIRST_LOGIN = "user_first_login";
 const String PREF_NAME = "UserDetails";
 // All Shared Preferences Keys
 const String IS_LOGIN = "IsLoggedIn";
-
 const String ErrorMessage = "something want wrong";
 
 

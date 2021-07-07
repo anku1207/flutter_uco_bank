@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/UiUtility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_v_o.dart';

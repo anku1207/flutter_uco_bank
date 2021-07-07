@@ -35,47 +35,6 @@ void showSnackBar(BuildContext context, String message) {
 DateTime StringToDate(String format , String StringDate){
   return new DateFormat(format).parse(StringDate);
 }
-
-Widget appointmentListCreate(List<AppointmentListItemVO> list) {
-  return list.isNotEmpty
-      ? ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (BuildContext context, int position) {
-            return Card(
-              color: Colors.white,
-              elevation: 2.0,
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                      title: Text(list[position].serviceName!),
-                      onLongPress: () => showToastLongTime(
-                          context, list[position].serviceName!))
-                ],
-              ),
-            );
-          })
-      : Center(
-          child: Align(
-            alignment: Alignment.center,
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(0),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "No Appointment Found",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: UavPrimaryColor),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-}
-
 Future<DateTime?> showDateDialog(BuildContext context) async {
   DateTime selectedDate = DateTime.now();
   final DateTime? picked = await showDatePicker(
@@ -85,4 +44,28 @@ Future<DateTime?> showDateDialog(BuildContext context) async {
           DateTime(selectedDate.year, selectedDate.month, selectedDate.day),
       lastDate: DateTime(2101));
   if (picked != null && picked != selectedDate) return picked;
+}
+
+Map<String, dynamic> AlertDialogDesignResponseWise(String title , String message , String btnText ,bool responseStatus) {
+  var dialogDesign = <String, dynamic>{};
+
+  if(responseStatus){
+    dialogDesign["H_BACKGROUND_COLOR"]=UavPrimaryColor;
+    dialogDesign["H_ICON"]=Icons.check_circle_rounded;
+    dialogDesign["BTN_TEXT"]=btnText;
+    dialogDesign["BTN_COLOR"]=Color(0xFFB3E5FC);
+    dialogDesign["BTN_BORDER_COLOR"]=UavPrimaryColor;
+    dialogDesign["MESSAGE"]=message;
+    dialogDesign["TITLE"]=title;
+  }else{
+    dialogDesign["H_BACKGROUND_COLOR"]=actions_bg_orange;
+    dialogDesign["H_ICON"]=Icons.sms_failed_outlined;
+    dialogDesign["BTN_TEXT"]=btnText;
+    dialogDesign["BTN_COLOR"]=Color(0xFFFFCDD2);
+    dialogDesign["BTN_BORDER_COLOR"]=Color(0xFFEF5350);;
+    dialogDesign["MESSAGE"]=message;
+    dialogDesign["TITLE"]=title;
+  }
+
+  return dialogDesign;
 }

@@ -7,6 +7,7 @@ import 'package:flutter_uco_bank/com/uav/flutter/activity/dashboard/CustomerType
 import 'package:flutter_uco_bank/com/uav/flutter/activity/dashboard/ServiceDialog.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/activity/dashboard/TimeSlotDialog.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/Session.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/UiUtility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/Validations.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
@@ -20,7 +21,6 @@ import 'package:flutter_uco_bank/com/uav/flutter/vo/time_slot_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/Session.dart'
     as customSession;
 import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_v_o.dart';
-
 
 class AddAppointment extends StatefulWidget {
   final Object? argument;
@@ -326,20 +326,29 @@ class _AddAppointmentState extends State<AddAppointment> {
 
         print(jsonEncode(requestData));
 
-
         Future<AppointmentVO?> response =
-        DashboardAPI.saveAppointment(requestData);
+            DashboardAPI.saveAppointment(requestData);
         response.catchError(
-              (onError) {
+          (onError) {
             print(onError.toString());
             showToastShortTime(context, onError.toString());
           },
         ).then((value) {
           if (value != null) {
             if (value.isError == false) {
-
+              showResponseDialogCbsl(
+                  context,
+                  AlertDialogDesignResponseWise(
+                      "Success", value.message!, "OK", true), (clickBtn) {
+                Navigator.pop(context);
+              });
             } else {
-              showToastShortTime(context, value.message!);
+              showResponseDialogCbsl(
+                  context,
+                  AlertDialogDesignResponseWise(
+                      "Success", value.message!, "OK", false), (clickBtn) {
+                Navigator.pop(context);
+              });
             }
           }
         }).whenComplete(() {
