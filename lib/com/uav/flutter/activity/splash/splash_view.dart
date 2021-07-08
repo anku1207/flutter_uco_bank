@@ -64,9 +64,13 @@ class _SplashViewState extends State<SplashView>
         showToastShortTime(context, onError.toString());
         showPermissionDialog(onError.toString());
       },
-    ).then((value) {
+    ).then((value) async {
       if (value != null) {
         print(value.latitude.toString() + "===" + value.longitude.toString());
+        //setting the details in session manager
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString(CACHE_LOCATION_LAT, value.latitude.toString());
+        prefs.setString(CACHE_LOCATION_LON, value.longitude.toString());
 
         checkCustomerSession().then((value) {
           print(value);

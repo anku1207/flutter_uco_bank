@@ -45,6 +45,14 @@ const String LOGOUT = "Logout";
 const String KEY_CONSTOMER_ID = "customer_id";
 const String KEY_CONTACT = "user_contact";
 const String KEY_FIRST_LOGIN = "user_first_login";
+
+
+const CACHE_LOCATION_LAT = "LOCATION_LAT";
+const CACHE_LOCATION_LON = "LOCATION_LON";
+
+
+
+
 // Sharedpref file name
 const String PREF_NAME = "UserDetails";
 // All Shared Preferences Keys
