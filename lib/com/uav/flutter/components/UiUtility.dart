@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/appointment_list_item_v_o.dart';
 import 'constants.dart';
-import 'package:flutter/material.dart';
+
 
 Widget appointmentListCreate(List<AppointmentListItemVO> list) {
   return list.isNotEmpty
@@ -45,7 +45,8 @@ Widget appointmentListCreate(List<AppointmentListItemVO> list) {
         );
 }
 
-void showResponseDialogCbsl(BuildContext context ,Map<String, dynamic> designMap , Function customCallBack) {
+void showResponseDialogCbsl(BuildContext context,
+    Map<String, dynamic> designMap, Function customCallBack) {
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -138,8 +139,9 @@ void showResponseDialogCbsl(BuildContext context ,Map<String, dynamic> designMap
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         side: BorderSide(
-                                            color: designMap["BTN_BORDER_COLOR"], width: 1)
-                                    ),
+                                            color:
+                                                designMap["BTN_BORDER_COLOR"],
+                                            width: 1)),
                                   ),
                                 ),
                               ),
@@ -155,4 +157,21 @@ void showResponseDialogCbsl(BuildContext context ,Map<String, dynamic> designMap
       });
 }
 
-
+Future<String>? showAlertDialog({required BuildContext context,String? title,required String message ,required String btnNameOk ,required String btnNameCancel}) async {
+ return await showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+            title: Text(title==null?"":title),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, btnNameCancel),
+                child: Text(btnNameCancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, btnNameOk),
+                child:  Text(btnNameOk),
+              ),
+            ],
+          ));
+}

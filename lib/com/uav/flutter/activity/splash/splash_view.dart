@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/components/UiUtility.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/constants.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/routes.dart';
-import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geolocator/geolocator.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -40,32 +44,7 @@ class _SplashViewState extends State<SplashView>
       (Timer timer) {
         if (_start == 0) {
           _timer.cancel();
-
-          getLocation().catchError(
-            (onError) {
-              print(onError.toString());
-              showToastShortTime(context, onError.toString());
-            },
-          ).then((value) {
-            if (value != null) {
-              print(value.latitude.toString() +
-                  "===" +
-                  value.longitude.toString());
-
-              checkCustomerSession().then((value) {
-                print(value);
-                if (value == false) {
-                  Navigator.pushReplacementNamed(
-                      context, UavRoutes.DashBoard_Screen);
-                } else {
-                  Navigator.pushReplacementNamed(
-                      context, UavRoutes.Login_Screen);
-                }
-              });
-            }
-          }).whenComplete(() {
-            print("called when future completes");
-          });
+          getLocation();
         } else {
           _start--;
         }
@@ -78,40 +57,77 @@ class _SplashViewState extends State<SplashView>
     return prefs.getBool(KEY_FIRST_LOGIN);
   }
 
-  Future<LocationData?> getLocation() async {
-    Location location = new Location();
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+  void getLocation() {
+    _determinePosition().catchError(
+      (onError) async {
+        print(onError.toString());
+        showToastShortTime(context, onError.toString());
+        showPermissionDialog(onError.toString());
+      },
+    ).then((value) {
+      if (value != null) {
+        print(value.latitude.toString() + "===" + value.longitude.toString());
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+        checkCustomerSession().then((value) {
+          print(value);
+          if (value == false) {
+            Navigator.pushReplacementNamed(context, UavRoutes.DashBoard_Screen);
+          } else {
+            Navigator.pushReplacementNamed(context, UavRoutes.Login_Screen);
+          }
+        });
+      } else {
+        showSnackBar(context, "else");
+      }
+    }).whenComplete(() {
+      EasyLoading.dismiss();
+      print("called when future completes");
+    });
+  }
+
+  /// Determine the current position of the device.
+  ///
+  /// When the location services are not enabled or permissions
+  /// are denied the `Future` will return an error.
+  Future<Position?> _determinePosition() async {
+    EasyLoading.show(status: 'wait...');
+
+    bool serviceEnabled;
+    LocationPermission permission;
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await Geolocator.openLocationSettings();
+      showToastShortTime(context, "serviceEnabled");
+      if (!serviceEnabled) {
         return Future.error('Location services are disabled.');
       }
     }
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        if (_permissionGranted == PermissionStatus.deniedForever) {
-          // Permissions are denied forever, handle appropriately.
-          return Future.error(
-              'Location permissions are permanently denied, we cannot request permissions.');
-        }
 
-        if (_permissionGranted == PermissionStatus.denied) {
-          // Permissions are denied, next time you could try
-          // requesting permissions again (this is also where
-          // Android's shouldShowRequestPermissionRationale
-          // returned true. According to Android guidelines
-          // your App should show an explanatory UI now.
-          return Future.error('Location permissions are denied');
-        }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission().catchError((onError) {
+        showToastShortTime(context, onError.toString());
+      });
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
       }
     }
-    return _locationData = await location.getLocation();
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
 
   @override
@@ -145,5 +161,19 @@ class _SplashViewState extends State<SplashView>
       ),*/
     );
     ;
+  }
+
+  showPermissionDialog(String string) async {
+    String? dialogResp = await showAlertDialog(
+        context: context,
+        btnNameOk: "ok",
+        btnNameCancel: "cancel",
+        title: "Permission ",
+        message: "Need GPS permission for getting your location ");
+    if (dialogResp != null && dialogResp.toLowerCase() == "ok") {
+      getLocation();
+    } else {
+      SystemNavigator.pop();
+    }
   }
 }
