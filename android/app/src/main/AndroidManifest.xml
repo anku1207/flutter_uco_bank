@@ -6,7 +6,7 @@
 
     <application
         android:label="flutter_uco_bank"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/uco_bank_splash">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

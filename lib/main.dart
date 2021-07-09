@@ -1,3 +1,4 @@
+import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/components/utility.dart';
 import 'com/uav/flutter/components/routes.dart';
@@ -5,7 +6,8 @@ import 'com/uav/flutter/components/theme.dart';
 import "package:flutter_uco_bank/com/uav/flutter/activity/splash/splash_view.dart";
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/services.dart';
-
+import 'package:alice/core/alice_http_client_extensions.dart';
+import 'package:alice/core/alice_http_extensions.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,15 +22,20 @@ void main() {
   });
 }
 
+Alice alice = Alice(
+    showNotification: true,
+    showInspectorOnShake: true,
+    darkTheme: true,
+    maxCallsCount: 1000);
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'UCO Bank',
       debugShowCheckedModeBanner: false,
       theme: theme(),
+      navigatorKey: alice.getNavigatorKey(),
       /* theme: ThemeData(
         // This is the theme of your application.
         //

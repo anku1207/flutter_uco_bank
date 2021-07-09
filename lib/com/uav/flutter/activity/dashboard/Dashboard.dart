@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alice/alice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -17,6 +18,8 @@ import 'package:flutter_uco_bank/com/uav/flutter/vo/dashboard_item_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/dashboard_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/dashboardAPI.dart'
     as DashboardAPI;
+import 'package:flutter_uco_bank/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -36,8 +39,7 @@ class _DashBoardState extends State<DashBoard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    Future<DashboardResponseVO?> response = DashboardAPI.getDashboardData("58");
+    Future<DashboardResponseVO?> response = DashboardAPI.getDashboardData();
     response.catchError(
       (onError) {
         print(onError.toString());
@@ -85,7 +87,6 @@ class _DashBoardState extends State<DashBoard> {
                 name: "Completed Appointments",
                 image: Icons.check,
                 count: value.completedAppointment.toString()));
-
           });
         } else {
           showToastShortTime(context, value.message.toString());

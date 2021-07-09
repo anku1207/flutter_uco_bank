@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/dashboardAPI.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/change_password_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/default_response_v_o.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/login_response_v_o.dart';
@@ -19,6 +20,7 @@ Future<DuplicateVO?> checkDuplicateNumber(String mobileNumber) async {
   print("checkDuplicateNumber_Click");
   final response = await http.get(Uri.parse(
       ApiUrl.BASE_URL + 'Account/isDuplicateMobileNo/' + mobileNumber));
+  httpRequestDebugging(response);
   print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -38,6 +40,7 @@ Future<RegisterResponseVO> register(RegisterResponseVO registerResponseVO) async
     headers: headers,
     body: json.encode(registerResponseVO.toJson()),
   );
+  httpRequestDebugging(response);
   print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -55,6 +58,7 @@ Future<DefaultResponseVO?> resendOTP(String mobileNumber) async {
   print("checkDuplicateNumber_Click");
   final response = await http.get(Uri.parse(
       ApiUrl.BASE_URL + 'Account/ResendOTP/' + mobileNumber));
+  httpRequestDebugging(response);
   print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -78,6 +82,7 @@ Future<DefaultResponseVO?> verifyOtp(String mobileNumber , String otp) async {
       'OTP': otp,
     }),
   );
+  httpRequestDebugging(response);
   print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -98,6 +103,7 @@ Future<ChangePasswordResponseVO?> changePwd(ChangePasswordResponseVO changePassw
     headers:headers,
     body: json.encode(changePasswordResponseVO.toJson()),
   );
+  httpRequestDebugging(response);
   print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -119,6 +125,7 @@ Future<LoginResponseVO?> login(LoginResponseVO loginResponseVO) async {
     headers:headers,
     body: json.encode(loginResponseVO.toJson()),
   );
+  httpRequestDebugging(response);
   print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
