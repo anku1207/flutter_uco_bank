@@ -22,7 +22,6 @@ import 'baseurl.dart';
 Future<DashboardResponseVO?> getDashboardData() async {
   EasyLoading.show(status: 'loading...');
   print("getDashboardData_Click");
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final response =
       await http.get(Uri.parse(ApiUrl.BASE_URL + 'Dashboard/' +  prefs.getString(KEY_CONSTOMER_ID)!));
@@ -35,13 +34,13 @@ Future<DashboardResponseVO?> getDashboardData() async {
   }
 }
 
-Future<AppointmentListItemResponseVO?> getAppointment(
-    String customerId, String aptTypeId) async {
+Future<AppointmentListItemResponseVO?> getAppointment(String aptTypeId) async {
   EasyLoading.show(status: 'loading...');
   print("getAppointment_Click");
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   Map<String, String> queryParams = {
     'apttype': aptTypeId,
-    'customerid': customerId
+    'customerid': prefs.getString(KEY_CONSTOMER_ID)!
   };
   String queryString = Uri(queryParameters: queryParams).query;
 
@@ -59,6 +58,38 @@ Future<AppointmentListItemResponseVO?> getAppointment(
     throw Exception('Failed to load album');
   }
 }
+
+
+
+Future<AppointmentListItemResponseVO?> getFilterAppointment(String branchId , String selectDate , String slot) async {
+  EasyLoading.show(status: 'loading...');
+  print("getFilterAppointment_Click");
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  Map<String, String> queryParams = {
+    'customerid': prefs.getString(KEY_CONSTOMER_ID)!,
+    'branchid': branchId,
+    'date': selectDate,
+    'slot': slot,
+
+  };
+  String queryString = Uri(queryParameters: queryParams).query;
+  final response = await http.get(
+      Uri.parse(ApiUrl.BASE_URL + 'Appointment/getAppointment/' + "?" + queryString));
+  httpRequestDebugging(response);
+  print(response.body);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return AppointmentListItemResponseVO.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+
+
 
 Future<BranchResponseVO?> getBranch(
     String lat, String lng) async {

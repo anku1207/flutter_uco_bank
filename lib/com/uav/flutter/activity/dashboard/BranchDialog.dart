@@ -139,7 +139,8 @@ class _BranchDialogState extends State<BranchDialog> {
                   },
                 )),
           ),
-        ));
+        )
+    );
   }
 
   SizedBox buildExpandedButton(

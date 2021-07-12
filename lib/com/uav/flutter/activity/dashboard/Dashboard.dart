@@ -284,6 +284,6 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   clickGridIcon(String title, int id) {
-    Navigator.pushNamed(context, UavRoutes.AppointmentListView_Screen,arguments: {"title":title,"id":id});
+    Navigator.pushNamed(context, UavRoutes.AppointmentListView_Screen,arguments: {"title":title,"id":id,"type":"dashboard"});
   }
 }

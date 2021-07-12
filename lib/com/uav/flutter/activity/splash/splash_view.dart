@@ -37,7 +37,7 @@ class _SplashViewState extends State<SplashView>
   }
 
   void startTimer() {
-    int _start = 2;
+    int _start = 0;
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
