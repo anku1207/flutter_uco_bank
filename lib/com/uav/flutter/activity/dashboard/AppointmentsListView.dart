@@ -43,7 +43,6 @@ class _AppointmentListViewState extends State<AppointmentListView> {
         var filterData = argumentsMap["data"].split("|");
         print(filterData.toString());
 
-
         Future<AppointmentListItemResponseVO?> response =
             DashboardAPI.getFilterAppointment(
                 filterData[0], filterData[1], filterData[2]);

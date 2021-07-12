@@ -45,7 +45,8 @@ class _otpState extends State<otp> {
       print(argumentsMap);
       mobileNumber=argumentsMap["mobileNumber"];
       module=argumentsMap["module"];
-      resend_OTP(argumentsMap["mobileNumber"]);
+      //resend_OTP(argumentsMap["mobileNumber"]);
+      startTimer();
     }else{
       Navigator.pop(context, true);
     }
@@ -104,7 +105,7 @@ class _otpState extends State<otp> {
     print("button click function");
     var isValid = _formKey.currentState!.validate();
     if (isValid) {
-      if(module==USER_REGISTER){
+      if(module==USER_REGISTER || module==FORGOT_PASSWORD){
         Future<DefaultResponseVO?> response =
         APICall.verifyOtp(mobileNumber,otpTextView.text);
         response.catchError(
@@ -124,8 +125,6 @@ class _otpState extends State<otp> {
           print("called when future completes");
           EasyLoading.dismiss();
         });
-      }else{
-
       }
 
     } else {

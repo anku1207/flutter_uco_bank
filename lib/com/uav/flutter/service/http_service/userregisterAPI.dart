@@ -10,6 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/vo/duplicate_vo.dart';
 import 'package:flutter_uco_bank/com/uav/flutter/service/http_service/baseurl.dart';
+import 'package:flutter_uco_bank/com/uav/flutter/vo/forgot_password_response_v_o.dart';
+
 
 
 Map<String,String> headers = {'Content-Type':'application/json'};
@@ -137,3 +139,24 @@ Future<LoginResponseVO?> login(LoginResponseVO loginResponseVO) async {
     throw Exception('Failed to load album');
   }
 }
+
+
+
+Future<ForgotPasswordResponseVO?> forgotPassword(String mobileNumber) async {
+  EasyLoading.show(status: 'loading...');
+  print("forgotPassword_Click");
+  final response = await http.get(Uri.parse(
+      ApiUrl.BASE_URL + 'Account/ForgetPassword/' + mobileNumber));
+  httpRequestDebugging(response);
+  print(response.body);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return ForgotPasswordResponseVO.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+

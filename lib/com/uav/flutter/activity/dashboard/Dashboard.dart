@@ -227,7 +227,7 @@ class _DashBoardState extends State<DashBoard> {
                                             myList[index].name!,
                                           )),
                                       Text(
-                                        myList[index].count!,
+                                        myList[index].id==itemVO.ADD_APPOINTMENT ? "" : myList[index].count!,
                                       ),
                                     ],
                                   );

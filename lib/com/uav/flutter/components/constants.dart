@@ -39,6 +39,8 @@ const actions_bg_orange =Color(0xFFED5733);
 const String USER_REGISTER = "register";
 const String ADD_APPOINTMENT = "Add Appointment";
 const String LOGOUT = "Logout";
+const String FORGOT_PASSWORD = "forgot_password";
+
 
 
 
