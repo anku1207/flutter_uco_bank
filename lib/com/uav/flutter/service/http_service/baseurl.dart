@@ -4,4 +4,5 @@ class ApiUrl {
 //const val BASE_URL = "http://192.168.43.185:8001/api/" // base url
 //static const BASE_URL = "http://cbsl_connect.cbslgroup.in/api/"; // base url
   static const BASE_URL = "http://uco-pms.cbslgroup.in/api/";
+
 }
