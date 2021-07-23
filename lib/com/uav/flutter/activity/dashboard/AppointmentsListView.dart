@@ -27,7 +27,7 @@ class _AppointmentListViewState extends State<AppointmentListView> {
       List.filled(0, AppointmentListItemVO(), growable: true);
 
   late String title;
-  late int id;
+  late String id;
 
   @override
   void initState() {

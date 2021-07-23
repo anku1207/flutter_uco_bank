@@ -62,7 +62,12 @@ class DashboardResponseVO {
     _upcomingAppointment = json["upcomingAppointment"];
     _allAppointment = json["AllAppointment"];
     _todayAppointment = json["TodayAppointment"];
-    _appointmentList =json['appointmentList'] != null ? List<AppointmentListItemVO>.from(json['appointmentList']) : null;
+    if (json["appointmentList"] != null) {
+      _appointmentList = [];
+      json["appointmentList"].forEach((v) {
+        _appointmentList?.add(AppointmentListItemVO.fromJson(v));
+      });
+    }
     _message = json["Message"];
     _completedAppointment = json["CompletedAppointment"];
     _isError = json["isError"];
@@ -76,7 +81,9 @@ class DashboardResponseVO {
     map["upcomingAppointment"] = _upcomingAppointment;
     map["AllAppointment"] = _allAppointment;
     map["TodayAppointment"] = _todayAppointment;
-    map["appointmentList"] = _appointmentList;
+    if (_appointmentList != null) {
+      map["branchList"] = _appointmentList?.map((v) => v.toJson()).toList();
+    }
     map["Message"] = _message;
     map["CompletedAppointment"] = _completedAppointment;
     map["isError"] = _isError;

@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:alice/alice.dart';
@@ -35,10 +36,20 @@ class _DashBoardState extends State<DashBoard> {
   List<DashboardItemVO> myList =
       List.filled(0, DashboardItemVO(), growable: true);
 
+  Map<int, String> typeListMap = new HashMap();
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    typeListMap[ALL_APPOINTMENT]="getAllAppointmentbyId";
+    typeListMap[TODAY_APPOINTMENT]= "getToDayAppointmentbyId";
+    typeListMap[UPCOMING_APPOINTMENT]= "getUpcomingAppointmentbyId";
+    typeListMap[CANCELLED_APPOINTMENT]= "getCancelledAppointmentbyId";
+    typeListMap[COMPLETED_APPOINTMENT]= "getCompletedAppointmentbyId";
+
+
     Future<DashboardResponseVO?> response = DashboardAPI.getDashboardData();
     response.catchError(
       (onError) {
@@ -284,6 +295,6 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   clickGridIcon(String title, int id) {
-    Navigator.pushNamed(context, UavRoutes.AppointmentListView_Screen,arguments: {"title":title,"id":id,"type":"dashboard"});
+    Navigator.pushNamed(context, UavRoutes.AppointmentListView_Screen,arguments: {"title":title,"id":typeListMap[id],"type":"dashboard"});
   }
 }

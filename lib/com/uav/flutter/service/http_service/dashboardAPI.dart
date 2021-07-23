@@ -36,16 +36,11 @@ Future<DashboardResponseVO?> getDashboardData() async {
 
 Future<AppointmentListItemResponseVO?> getAppointment(String aptTypeId) async {
   EasyLoading.show(status: 'loading...');
-  print("getAppointment_Click");
+  print("getAppointment_Click" + aptTypeId);
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  Map<String, String> queryParams = {
-    'apttype': aptTypeId,
-    'customerid': prefs.getString(KEY_CONSTOMER_ID)!
-  };
-  String queryString = Uri(queryParameters: queryParams).query;
 
   final response = await http.get(
-      Uri.parse(ApiUrl.BASE_URL + 'Dashboard/' + "?" + queryString));
+      Uri.parse(ApiUrl.BASE_URL + 'Dashboard/'+aptTypeId+"/"+prefs.getString(KEY_CONSTOMER_ID)!));
   httpRequestDebugging(response);
   print(response.body);
   if (response.statusCode == 200) {
