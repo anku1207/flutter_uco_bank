@@ -262,8 +262,14 @@ class _AddAppointmentState extends State<AddAppointment> {
         branchId!.isNotEmpty &&
         selectDateId.text != null &&
         selectDateId.text.isNotEmpty) {
+
+      //change String Date Format
+      var outputFormat = DateFormat('yyyy-MM-dd');
+      var outputDate =
+      outputFormat.format(StringToDate("dd-MM-yyyy", selectDateId.text));
+
       Future<TimeSlotVO?> response = DashboardAPI.getSlotByBranchWise(
-          branchId!, selectDateId.text.toString());
+          branchId!, outputDate);
       response.catchError(
         (onError) {
           print(onError.toString());
@@ -315,7 +321,7 @@ class _AddAppointmentState extends State<AddAppointment> {
         requestData["CustomerType"] = customerTypeId.text;
 
         //change String Date Format
-        var outputFormat = DateFormat('yyyy/MM/dd');
+        var outputFormat = DateFormat('yyyy-MM-dd');
         var outputDate =
             outputFormat.format(StringToDate("dd-MM-yyyy", selectDateId.text));
 
